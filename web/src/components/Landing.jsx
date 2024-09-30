@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import ngo1 from '../assets/images/ngo1.png';
 import ngo2 from '../assets/images/ngo2.png';
 import ngo3 from '../assets/images/ngo3.png';
-import blue from '../assets/images/blue.webp';
+import ngo5 from '../assets/images/ngo5.png';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import About from './About';
@@ -129,7 +129,7 @@ const Landing = () => {
           </div>
 
           <div className="relative overflow-hidden rounded-lg flex items-center justify-center custom-shape2 w-[400px] h-[400px]">
-            <img src={blue} alt="Farm Field" className="relative w-full h-full object-cover" />
+            <img src={ngo5} alt="Farm Field" className="relative w-full h-full object-cover" />
             <div className="absolute inset-0 flex flex-col items-center justify-center p-16">
               <p className="mb-2 font-poppins text-2xl text-white">'Connect with us on social media'</p>
               <div className="flex space-x-4 mt-2">
