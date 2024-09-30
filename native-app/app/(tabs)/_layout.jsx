@@ -70,9 +70,9 @@ const TabsLayout = () => {
         tabBarStyle: {
           position: "absolute",
           bottom: insets.bottom,
-          left: 10,
-          right: 10,
-          bottom: 6,
+          left: 5,
+          right: 5,
+          bottom: 5,
           backgroundColor: "#E0F7FA",
           borderRadius: 10,
           height: 55,
@@ -122,21 +122,6 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="chatbot"
-        options={{
-          title: t("krishak.ai"),
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.chatbot}
-              color={color}
-              name={t("krishak.ai")}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="weather"
         options={{
           title: t("weather"),
@@ -152,15 +137,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="message"
+        name="community"
         options={{
-          title: t("message"),
+          title: t("community"),
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              icon={icons.message}
+              icon={icons.community}
               color={color}
-              name={t("message")}
+              name={t("community")}
               focused={focused}
             />
           ),
