@@ -24,7 +24,7 @@ const Login = () => {
   const { t } = useTranslation();
 
   const [form, setForm] = useState({
-    phone: "",
+    email: "",
     password: "",
   });
 
@@ -35,23 +35,12 @@ const Login = () => {
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const isValidPhone = (phone) => {
-    const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(phone);
-  };
-
   const submitForm = async () => {
-    if (!form.phone) {
+    if (!form.email) {
       Toast.show({
         type: "error",
         text1: t("InvalidInput"),
-        text2: t("phoneError"),
-      });
-    } else if (!isValidPhone(form.phone)) {
-      Toast.show({
-        type: "error",
-        text1: t("InvalidInput"),
-        text2: t("phoneInvalid"),
+        text2: t("emailError"),
       });
     } else if (!form.password) {
       Toast.show({
@@ -63,7 +52,7 @@ const Login = () => {
       setIsSubmitting(true);
 
       try {
-        const response = await login(form.phone, form.password);
+        const response = await login(form.email, form.password);
         router.replace("/home");
       } catch (error) {
         Toast.show({
@@ -92,8 +81,8 @@ const Login = () => {
     console.log(data);
 
     try {
-      const { phone, password } = JSON.parse(data);
-      setForm({ phone, password });
+      const { email, password } = JSON.parse(data);
+      setForm({ email, password });
       Toast.show({
         type: "success",
         text1: t("QRCodeScanned"),
@@ -130,16 +119,15 @@ const Login = () => {
           </View>
 
           <Text className="text-3xl font-bold mb-8 mt-10">
-            <Text className="text-green-500">{t("loginTitle")}</Text> {t("now")}{" "}
-            !
+            <Text className="text-primary-100">{t("loginTitle")}</Text>{" "}
+            {t("now")} !
           </Text>
 
           <View className="space-y-4">
             <FormField
-              name={t("phone")}
-              value={form.phone}
-              handleChange={(e) => setForm({ ...form, phone: e })}
-              keyboardType="phone-pad"
+              name={t("email")}
+              value={form.email}
+              handleChange={(e) => setForm({ ...form, email: e })}
               customStyles="mt-7"
             />
 
@@ -163,7 +151,7 @@ const Login = () => {
               className="mt-5 p-3 border rounded-md border-gray-400"
               onPress={() => setModalVisible(true)}
             >
-              <Text className="text-center text-green-500 font-semibold">
+              <Text className="text-center text-primary-100 font-semibold">
                 {t("scanQRCode")}
               </Text>
             </TouchableOpacity>
@@ -171,7 +159,7 @@ const Login = () => {
             <View className="flex-row justify-center mt-6 gap-x-1">
               <Text className="text-gray-600">{t("noAccount")}</Text>
               <Link href="/register">
-                <Text className="text-green-500 font-semibold">
+                <Text className="text-primary-100 font-semibold">
                   {t("signUp")}
                 </Text>
               </Link>

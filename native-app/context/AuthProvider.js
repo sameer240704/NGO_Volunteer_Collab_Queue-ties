@@ -7,7 +7,7 @@ export const useAuthContext = () => useContext(AuthContext);
 
 const api = axios.create({
     // baseURL: 'https://ams-server-omega.vercel.app/',
-    baseURL: 'http://192.168.1.7:4224',
+    baseURL: 'http://192.168.1.131:4224',
     withCredentials: true
 });
 
@@ -40,9 +40,9 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const login = async (phone, password) => {
+    const login = async (email, password) => {
         try {
-            const response = await api.post('/auth/login', { phone, password });
+            const response = await api.post('/auth/login', { email, password });
             if (response.status === 200) {
                 await AsyncStorage.setItem('userToken', response.data.token);
                 await AsyncStorage.setItem('userId', response.data.userId);
@@ -64,7 +64,6 @@ const AuthProvider = ({ children }) => {
             formData.append('email', userData.email);
             formData.append('password', userData.password);
             formData.append('phone', userData.phone);
-            formData.append('language', userData.language);
 
             formData.append('userImage', {
                 uri: userData.userImage.uri,

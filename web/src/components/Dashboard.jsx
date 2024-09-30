@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import ProfilePhoto from '../assets/images/ngo3.png'; 
@@ -57,14 +58,16 @@ const Dashboard = () => {
         <div>
           <div className="flex items-center mb-10">
             <img src={Logo} alt="Logo" className="w-20 h-16" />
-            <h1 className="text-2xl font-semibold font-poppins mr-8">ForACause</h1>
+            <h1 className="text-2xl font-semibold font-poppins mr-8">
+              ForACause
+            </h1>
           </div>
 
           <nav className="space-y-5">
             <SidebarLink
               label="Overview"
-              isActive={activeSection === 'overview'}
-              onClick={() => handleSectionClick('overview')}
+              isActive={activeSection === "overview"}
+              onClick={() => handleSectionClick("overview")}
             />
             <SidebarLink
               label="Market Place"
@@ -73,8 +76,13 @@ const Dashboard = () => {
             />
             <SidebarLink
               label="Community"
-              isActive={activeSection === 'community'}
-              onClick={() => handleSectionClick('community')}
+              isActive={activeSection === "community"}
+              onClick={() => handleSectionClick("community")}
+            />
+            <SidebarLink
+              label="Projects"
+              isActive={activeSection === "projects"}
+              onClick={() => handleSectionClick("projects")}
             />
           </nav>
         </div>
@@ -98,7 +106,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-secondary p-10">
+      <div className="flex-1 bg-blue-100 p-10">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === 'overview' && 'Dashboard Overview'}
           {activeSection === 'marketplace' && 'Market Place'}
@@ -108,7 +116,9 @@ const Dashboard = () => {
           {(activeSection === 'marketplace') && <Market />}
         <div className="grid grid-cols-3 gap-6">
           {(activeSection === 'community' || activeSection === 'community') && <Community />}
+
         </div>
+        {activeSection === "projects" && <Projects />}
       </div>
     </div>
   );
@@ -118,9 +128,9 @@ const SidebarLink = ({ label, isActive, onClick }) => (
   <div
     onClick={onClick}
     className={`cursor-pointer flex items-center font-medium text-xl py-4 px-5 transition-colors duration-200
-      ${isActive ? 'bg-secondary text-blue-900' : 'hover:bg-accent'}
+      ${isActive ? "bg-blue-100 text-blue-900" : "hover:bg-accent"}
     `}
-    style={isActive ? { borderRadius: '40px 0px 0px 40px' } : {}}
+    style={isActive ? { borderRadius: "40px 0px 0px 40px" } : {}}
   >
     {label}
   </div>
