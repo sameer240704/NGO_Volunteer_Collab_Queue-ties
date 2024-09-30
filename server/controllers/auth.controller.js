@@ -179,7 +179,7 @@ export const getUserById = async (req, res) => {
                 role: user.role,
                 address1: user.address1,
                 address2: user.address2,
-                city: user.state,
+                city: user.city,
                 state: user.state,
                 primaryImage: user.primaryImage,
                 ngoImages: user.ngoImages

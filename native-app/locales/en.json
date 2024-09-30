@@ -17,7 +17,8 @@
     "alreadyAccount": "Already have an account?",
     "signIn": "Sign In",
     "signUp": "Sign Up",
-    "fullName": "Full Name",
+    "ngoName": "NGO Name",
+    "volunteerName": "Volunteer Name",
     "password": "Password",
     "phone": "Phone",
     "email": "Email",
@@ -50,5 +51,14 @@
     "selectImageSource": "Select your image source",
     "camera": "Camera",
     "gallery": "Media",
-    "close": "Close"
+    "close": "Close",
+    "userType": "User Type",
+    "address1": "Address Line 1",
+    "address2": "Address Line 2",
+    "city": "City",
+    "state": "State",
+    "ngoImage": "NGO Images",
+    "volunteerImage": "Volunteer Image",
+    "ngoImages": "NGO Images",
+    "ngos": "NGOs"
 }

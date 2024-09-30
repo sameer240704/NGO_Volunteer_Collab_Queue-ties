@@ -4,16 +4,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
     // baseURL: 'https://ams-server-omega.vercel.app/',
-    baseURL: 'http://192.168.1.7:4224',
+    baseURL: 'http://192.168.1.131:4224',
 });
 
-export const useFarmerData = () => {
-    const [farmerData, setFarmerData] = useState({});
+export const useUserData = () => {
+    const [userData, setUserData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchFarmerData = async () => {
+        const fetchUserData = async () => {
             try {
                 const userId = await AsyncStorage.getItem('userId');
 
@@ -23,17 +23,17 @@ export const useFarmerData = () => {
 
                 const response = await api.get(`/auth/getUser/${userId}`);
 
-                setFarmerData(response.data.user);
+                setUserData(response.data.user);
                 setIsLoading(false);
             } catch (err) {
-                console.error("Error fetching farmer data:", err);
+                console.error("Error fetching user data:", err);
                 setError(err.message);
                 setIsLoading(false);
             }
         };
 
-        fetchFarmerData();
+        fetchUserData();
     }, []);
 
-    return { farmerData, isLoading, error };
+    return { userData, isLoading, error };
 };
