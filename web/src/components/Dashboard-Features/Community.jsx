@@ -1,212 +1,266 @@
-import React, { useState } from "react";
-import ngo1 from "../../assets/images/ngo1.png";
-import ngo2 from "../../assets/images/ngo2.png";
-import ngo3 from "../../assets/images/ngo3.png";
+import React, { useState, useEffect } from 'react';
+import { Search, Star, Plus, X } from 'lucide-react';
+import axios from 'axios';
 
-// Example story data
-const stories = [
-  { id: 1, username: "x_ae_23b", image: ngo1 },
-  { id: 2, username: "maisenpai", image: ngo2 },
-  { id: 3, username: "saylorwitf", image: ngo3 },
-  { id: 4, username: "johndoe", image: ngo1 },
-  { id: 5, username: "maryjane2", image: ngo2 },
-];
+const Market = () => {
+  const [sellers, setSellers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+  const [donationTypeFilter, setDonationTypeFilter] = useState('');
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newSeller, setNewSeller] = useState({
+    name: '',
+    type: '',
+    rating: 0,
+    donationType: '',
+    donationAmount: 0,
+    contact: '',
+    email: '',
+    products: [],
+    ngoList: [],
+    image: null
+  });
 
-const posts = [
-  {
-    id: 1,
-    author: "John Doe",
-    content: "Just planted a new batch of tomatoes! 🍅 #OrganicFarming",
-    likes: 15,
-    comments: 3,
-    image: ngo2,
-  },
-  {
-    id: 2,
-    author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
-    likes: 24,
-    comments: 7,
-    image: ngo2,
-  },
-  {
-    id: 2,
-    author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
-    likes: 24,
-    comments: 7,
-    image: ngo2,
-  },
-  {
-    id: 2,
-    author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
-    likes: 24,
-    comments: 7,
-    image: ngo2,
-  },
-];
+  useEffect(() => {
+    const fetchSellers = async () => {
+      try {
+        const response = await axios.get('http://localhost:4224/seller');
+        setSellers(response.data);
+      } catch (error) {
+        console.error('Error fetching sellers:', error);
+      }
+    };
 
-const groups = [
-  { id: 1, name: "Organic Farmers United", members: 1250 },
-  { id: 2, name: "Sustainable Agriculture", members: 980 },
-  { id: 3, name: "Urban Gardeners", members: 567 },
-];
+    fetchSellers();
+  }, []);
 
-// Modal component for adding a new story
-const NewStoryModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  const handleAddSeller = async (e) => {
+    e.preventDefault();
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-96">
-        <h3 className="text-2xl font-semibold mb-4">Add New Story</h3>
-        <input
-          type="file"
-          className="mb-4 w-full border p-2 rounded"
-          accept="image/*"
-          placeholder="Upload your story image"
-        />
-        <textarea
-          placeholder="Write something about your story..."
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-          rows="3"
-        ></textarea>
-        <div className="flex justify-end space-x-4">
-          <button
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Add Story
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    const formData = new FormData();
+    Object.keys(newSeller).forEach(key => {
+      if (key === 'products' || key === 'ngoList') {
+        formData.append(key, JSON.stringify(newSeller[key]));
+      } else {
+        formData.append(key, newSeller[key]);
+      }
+    });
 
-const Community = () => {
-  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+    try {
+      const response = await axios.post('http://localhost:4224/seller/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
-  const handleCreateStoryClick = () => {
-    setIsStoryModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsStoryModalOpen(false);
+      setSellers([...sellers, response.data]);
+      setNewSeller({
+        name: '',
+        type: '',
+        rating: 0,
+        donationType: '',
+        donationAmount: 0,
+        contact: '',
+        email: '',
+        products: [],
+        ngoList: [],
+        image: null
+      });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error('Error adding seller:', error);
+    }
   };
 
   return (
-    <div className="flex h-full bg-blue-100 overflow-hidden text-lg">
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto p-4">
-        {/* Stories Section */}
-        <div className="flex space-x-4 mb-6 overflow-x-auto scrollbar-hide">
-          {/* Create New Story */}
-          <div
-            className="flex flex-col items-center cursor-pointer"
-            onClick={handleCreateStoryClick}
-          >
-            <div className="w-24 h-24 rounded-full bg-secondary border-2 border-blue-500 flex items-center justify-center">
-              <span className="text-blue-500 text-3xl font-semibold">+</span>
-            </div>
-            <p className="mt-2 text-sm text-gray-700">Create Story</p>
+    <>
+      <div className="relative -mt-7">
+        <div className="container mx-auto p-4 transition-all duration-300">
+          <div className="flex justify-end items-center mb-6">
+            <button onClick={() => setShowAddForm(!showAddForm)} className="bg-primary text-white px-6 py-4 rounded-full flex items-center">
+              <Plus size={20} className="mr-2" />
+              {showAddForm ? "Close Form" : "Add Seller"}
+            </button>
           </div>
 
-          {/* Existing Stories */}
-          {stories.map((story) => (
-            <div key={story.id} className="flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-blue-500">
-                <img
-                  src={story.image}
-                  alt={story.username}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <p className="mt-2 text-sm text-gray-700">{story.username}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Posts */}
-        <div className="grid grid-cols-2 gap-6">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
-            >
-              <div className="p-4">
-                <h3 className="font-semibold text-2xl text-primary mb-2">
-                  {post.author}
-                </h3>
-                <p className="text-gray-600 mb-4">{post.content}</p>
-                <img
-                  src={post.image}
-                  alt="Post"
-                  className="w-full rounded-md mb-4"
-                />
-                <div className="flex justify-between items-center">
-                  <div className="space-x-4">
-                    <button className="text-red-500">
-                      ❤ Like ({post.likes})
-                    </button>
-                    <button className="text-gray-500">
-                      💬 Comment ({post.comments})
-                    </button>
-                    <button className="text-gray-500">➤ Share</button>
+          {showAddForm ? (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+              <div className="bg-white p-8 rounded-lg max-w-lg w-full space-y-6">
+                <form onSubmit={handleAddSeller} className="grid grid-cols-1 gap-4">
+                  <div className='flex flex-col'>
+                    <label htmlFor="name" className='text-lg font-semibold text-blue-900'>Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter Seller Name"
+                      value={newSeller.name}
+                      onChange={(e) => setNewSeller({ ...newSeller, name: e.target.value })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
                   </div>
-                  <button className="px-4 py-2 bg-accent text-white rounded-full hover:bg-blue-600 transition-colors">
-                    View More
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="type" className='text-lg font-semibold text-blue-900'>Type</label>
+                    <select
+                      value={newSeller.type}
+                      onChange={(e) => setNewSeller({ ...newSeller, type: e.target.value })}
+                      className="w-full p-3 border rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Restaurant">Restaurant</option>
+                      <option value="Local Shop">Local Shop</option>
+                    </select>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="rating" className='text-lg font-semibold text-blue-900'>Rating</label>
+                    <input
+                      type="number"
+                      placeholder="Rate between 0-5"
+                      value={newSeller.rating}
+                      onChange={(e) => setNewSeller({ ...newSeller, rating: parseFloat(e.target.value) })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="donationType" className='text-lg font-semibold text-blue-900'>Donation Type</label>
+                    <input
+                      type="text"
+                      placeholder="Enter Donation Type"
+                      value={newSeller.donationType}
+                      onChange={(e) => setNewSeller({ ...newSeller, donationType: e.target.value })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="donationAmount" className='text-lg font-semibold text-blue-900'>Donation Amount (INR)</label>
+                    <input
+                      type="number"
+                      placeholder="Enter Donation Amount"
+                      value={newSeller.donationAmount}
+                      onChange={(e) => setNewSeller({ ...newSeller, donationAmount: parseInt(e.target.value) })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      min="0"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="contact" className='text-lg font-semibold text-blue-900'>Contact Number</label>
+                    <input
+                      type="text"
+                      placeholder="Enter Contact Number"
+                      value={newSeller.contact}
+                      onChange={(e) => setNewSeller({ ...newSeller, contact: e.target.value })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="email" className='text-lg font-semibold text-blue-900'>Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="Enter Email Address"
+                      value={newSeller.email}
+                      onChange={(e) => setNewSeller({ ...newSeller, email: e.target.value })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="products" className='text-lg font-semibold text-blue-900'>List of Products</label>
+                    <input
+                      type="text"
+                      placeholder="Comma-separated (e.g., apples, oranges, bread)"
+                      value={newSeller.products.join(', ')}
+                      onChange={(e) => setNewSeller({ ...newSeller, products: e.target.value.split(',').map(p => p.trim()) })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="ngoList" className='text-lg font-semibold text-blue-900'>List of NGOs</label>
+                    <input
+                      type="text"
+                      placeholder="Comma-separated (e.g., NGO1, NGO2)"
+                      value={newSeller.ngoList.join(', ')}
+                      onChange={(e) => setNewSeller({ ...newSeller, ngoList: e.target.value.split(',').map(n => n.trim()) })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label htmlFor="image" className='text-lg font-semibold text-blue-900'>Profile Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setNewSeller({ ...newSeller, image: e.target.files[0] })}
+                      className="w-full p-3 rounded-lg bg-gray-100 shadow-md shadow-blue-500/50 focus:ring focus:ring-green-200"
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg shadow-md transition duration-300">
+                    Add Seller
                   </button>
-                </div>
+                </form>
               </div>
             </div>
-          ))}
+          ) : (
+            <>
+              <div className="mb-6 flex items-center flex-wrap gap-4">
+                <div className="relative flex-grow">
+                  <input
+                    type="text"
+                    placeholder="Search sellers..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full p-4 pl-10 border rounded-lg font-harmonique"
+                  />
+                  <Search className="absolute left-3 top-4 text-gray-400" size={20} />
+                </div>
+
+                <select
+                  value={typeFilter}
+                  onChange={(e) => setTypeFilter(e.target.value)}
+                  className="p-4 border rounded-full"
+                >
+                  <option value="">All Types</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Local Shop">Local Shop</option>
+                </select>
+
+                <select
+                  value={donationTypeFilter}
+                  onChange={(e) => setDonationTypeFilter(e.target.value)}
+                  className="p-4 border rounded-full"
+                >
+                  <option value="">All Donation Types</option>
+                  <option value="Food">Food</option>
+                  <option value="Money">Money</option>
+                  <option value="Books">Books</option>
+                  <option value="Electronics">Electronics</option>
+                </select>
+              </div>
+              <SellerList sellers={sellers} />
+            </>
+          )}
         </div>
       </div>
-
-      {/* Right Sidebar */}
-      <div className="w-80 sticky top-4 h-screen overflow-y-auto">
-        {/* Create New Post */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
-          <h3 className="font-semibold text-xl text-primary mb-2">
-            Create New Post
-          </h3>
-          <textarea
-            placeholder="What's on your mind?"
-            className="w-full p-2 border border-gray-300 rounded-md mb-2"
-            rows="3"
-          ></textarea>
-          <button className="w-full bg-accent text-white py-2 rounded-md hover:bg-blue-600 transition-colors">
-            Post
-          </button>
-        </div>
-
-        {/* Groups */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4">
-          <h3 className="font-semibold text-xl text-primary mb-4">Groups</h3>
-          {groups.map((group) => (
-            <div key={group.id} className="mb-4 last:mb-0">
-              <h4 className="font-semibold">{group.name}</h4>
-              <p className="text-sm text-gray-500">{group.members} members</p>
-              <button className="mt-2 px-4 py-1 bg-accent text-white text-lg rounded-full hover:bg-blue-600 transition-colors">
-                Join Group
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* New Story Modal */}
-      <NewStoryModal isOpen={isStoryModalOpen} onClose={handleCloseModal} />
-    </div>
+    </>
   );
 };
 
-export default Community;
+export default Market;

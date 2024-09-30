@@ -193,6 +193,15 @@ export const getUserById = async (req, res) => {
     }
 };
 
+export const getUser = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};  
+
 export const addAdditionalUserDetails = (req, res, next) => {
     const { address, dateOfBirth } = req.body;
     try {

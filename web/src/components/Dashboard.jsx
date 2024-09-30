@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import Projects from './Project/Projects';
+import ProfileDetails from './Dashboard-Features/ProfileDetails';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -48,11 +49,9 @@ const Dashboard = () => {
   }
   , [authUser.userId]);
 
-  // console.log(user.user);
-  
 
   return (
-    <div className="flex h-screen font-poppins">
+    <div className="flex h-screen font-harmonique">
       {/* Sidebar */}
       <div className="bg-primary text-white w-84 py-8 pl-8 flex flex-col justify-between relative">
         <div>
@@ -89,7 +88,7 @@ const Dashboard = () => {
 
         {/* Profile and Logout Section */}
         <div className="mt-auto">
-          <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8">
+          <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8" onClick={() => handleSectionClick("profile")}>
             <img src={user.user?.primaryImage} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
             <div>
               <h3 className="text-lg font-medium font-poppins">{user.user?.name}</h3>
@@ -111,6 +110,7 @@ const Dashboard = () => {
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "marketplace" && "Market Place"}
           {activeSection === "community" && "Community"}
+          {activeSection === "profile" && "Profile Details"}
         </h1>
 
         <div>
@@ -120,6 +120,7 @@ const Dashboard = () => {
         </div>
         {activeSection === "marketplace" && <Market />}
         {activeSection === "projects" && <Projects />}
+        {activeSection === "profile" && <ProfileDetails user={user} onLogout={handleLogout} />}
       </div>
     </div>
   );
