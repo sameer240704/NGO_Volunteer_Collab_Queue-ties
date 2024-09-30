@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Logo from '../assets/images/logoimg.png';
 import ProfilePhoto from '../assets/images/ngo3.png'; 
 import Community from '../components/Dashboard-Features/Community';
+import Market from './Dashboard-Features/Market';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -30,6 +31,11 @@ const Dashboard = () => {
               label="Overview"
               isActive={activeSection === 'overview'}
               onClick={() => handleSectionClick('overview')}
+            />
+            <SidebarLink
+              label="Market Place"
+              isActive={activeSection === 'marketplace'}
+              onClick={() => handleSectionClick('marketplace')}
             />
             <SidebarLink
               label="Community"
@@ -61,9 +67,11 @@ const Dashboard = () => {
       <div className="flex-1 bg-secondary p-10">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === 'overview' && 'Dashboard Overview'}
+          {activeSection === 'marketplace' && 'Market Place'}
           {activeSection === 'community' && 'Community'}
         </h1>
 
+          {(activeSection === 'marketplace') && <Market />}
         <div className="grid grid-cols-3 gap-6">
           {(activeSection === 'overview' || activeSection === 'community') && <Community />}
         </div>
