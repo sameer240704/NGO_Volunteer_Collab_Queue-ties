@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Logo from '../assets/images/logoimg.png';
-import ProfilePhoto from '../assets/images/ngo3.png'; 
-import Community from '../components/Dashboard-Features/Community';
-import Projects from './Project/Projects';
+import React, { useState } from "react";
+import Logo from "../assets/images/logoimg.png";
+import ProfilePhoto from "../assets/images/ngo3.png";
+import Community from "../components/Dashboard-Features/Community";
+import Projects from "./Project/Projects";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -36,13 +36,13 @@ const Dashboard = () => {
             />
             <SidebarLink
               label="Community"
-              isActive={activeSection === 'community'}
-              onClick={() => handleSectionClick('community')}
+              isActive={activeSection === "community"}
+              onClick={() => handleSectionClick("community")}
             />
             <SidebarLink
               label="Projects"
-              isActive={activeSection === 'projects'}
-              onClick={() => handleSectionClick('projects')}
+              isActive={activeSection === "projects"}
+              onClick={() => handleSectionClick("projects")}
             />
           </nav>
         </div>
@@ -75,6 +75,7 @@ const Dashboard = () => {
       <div className="flex-1 bg-blue-100 p-10">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === "overview" && "Dashboard Overview"}
+          {activeSection === "community" && "Community"}
         </h1>
 
         <div>
@@ -82,7 +83,7 @@ const Dashboard = () => {
             <Community />
           )}
         </div>
-        {activeSection === 'projects' && <Projects />}
+        {activeSection === "projects" && <Projects />}
       </div>
     </div>
   );
