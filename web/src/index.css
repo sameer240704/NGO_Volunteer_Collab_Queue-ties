@@ -16,3 +16,20 @@
     clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
   }
   
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Background of the track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #a0aec0; /* Grey thumb color */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #718096; /* Darker grey when hovered */
+}
