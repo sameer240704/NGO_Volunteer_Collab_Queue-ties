@@ -145,8 +145,9 @@ export const checkAuthentication = async (req, res) => {
             message: "User authenticated",
             user: {
                 id: user._id,
-                fullName: user.fullName,
-                email: user.email
+                name: user.name,
+                email: user.email,
+                role: user.role,
             }
         });
     } catch (error) {
@@ -164,7 +165,6 @@ export const getUserById = async (req, res) => {
 
     try {
         const user = await User.findById(userId);
-        console.log(user)
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -173,11 +173,16 @@ export const getUserById = async (req, res) => {
         res.status(200).json({
             message: "User retrieved successfully",
             user: {
-                fullName: user.fullName,
+                name: user.name,
                 email: user.email,
                 phone: user.phone,
-                userImage: user.userImage,
-                language: user.language
+                role: user.role,
+                address1: user.address1,
+                address2: user.address2,
+                city: user.state,
+                state: user.state,
+                primaryImage: user.primaryImage,
+                ngoImages: user.ngoImages
             }
         });
     } catch (error) {
