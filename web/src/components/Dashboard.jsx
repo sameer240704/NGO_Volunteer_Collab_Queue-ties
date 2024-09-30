@@ -7,6 +7,7 @@ import Market from './Dashboard-Features/Market';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
+import Projects from './Project/Projects';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -70,11 +71,6 @@ const Dashboard = () => {
               onClick={() => handleSectionClick("overview")}
             />
             <SidebarLink
-              label="Market Place"
-              isActive={activeSection === 'marketplace'}
-              onClick={() => handleSectionClick('marketplace')}
-            />
-            <SidebarLink
               label="Community"
               isActive={activeSection === "community"}
               onClick={() => handleSectionClick("community")}
@@ -97,7 +93,7 @@ const Dashboard = () => {
           </div>
 
           <div
-            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-blue-100 transition-colors"
+            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-blue-200 transition-colors"
             onClick={handleLogout}
           >
             Logout
@@ -106,17 +102,16 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-blue-100 p-10">
+      <div className="flex-1 bg-blue-100 p-10 ">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
-          {activeSection === 'overview' && 'Dashboard Overview'}
-          {activeSection === 'marketplace' && 'Market Place'}
-          {activeSection === 'community' && 'Community'}
+          {activeSection === "overview" && "Dashboard Overview"}
+          {activeSection === "community" && "Community"}
         </h1>
 
-          {(activeSection === 'marketplace') && <Market />}
-        <div className="grid grid-cols-3 gap-6">
-          {(activeSection === 'community' || activeSection === 'community') && <Community />}
-
+        <div>
+          {(activeSection === "community" || activeSection === "community") && (
+            <Community />
+          )}
         </div>
         {activeSection === "projects" && <Projects />}
       </div>
