@@ -12,6 +12,7 @@ module.exports = {
       },
       fontFamily: {
         harmonique: ['Harmonique', 'sans-serif'], // Ensure Harmonique font is loaded in your project
+        poppins: ['Poppins', 'sans-serif'], // Add Poppins font
       },
     },
   },

@@ -45,13 +45,13 @@ const Dashboard = () => {
   }, [authUser.userId]);
 
   return (
-    <div className="min-h-screen flex font-poppins bg-gradient-to-b from-blue-100 to-blue-300">
+    <div className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300">
       {/* Sidebar */}
       <div className="bg-primary fixed text-white w-84 py-8 pl-8 flex flex-col justify-between h-screen">
         <div>
           <div className="flex items-center mb-10">
             <img src={Logo} alt="Logo" className="w-20 h-16" />
-            <h1 className="text-2xl font-semibold font-poppins mr-8">
+            <h1 className="text-2xl font-semibold font-harmonique mr-8">
               ForACause
             </h1>
           </div>
@@ -85,12 +85,12 @@ const Dashboard = () => {
           <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8">
             <img src={user.user?.primaryImage} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
             <div>
-              <h3 className="text-lg font-medium font-poppins">{user.user?.name}</h3>
+              <h3 className="text-lg font-medium font-harmonique">{user.user?.name}</h3>
             </div>
           </div>
 
           <div
-            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-blue-200 transition-colors"
+            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-harmonique cursor-pointer text-center rounded-lg hover:bg-blue-200 transition-colors"
             onClick={handleLogout}
           >
             Logout
@@ -100,7 +100,7 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-10 pl-80 overflow-y-auto">
-        <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
+        <h1 className="text-4xl font- font-semibold text-primary mb-8">
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "marketplace" && "Market Place"}
           {activeSection === "community" && "Community"}

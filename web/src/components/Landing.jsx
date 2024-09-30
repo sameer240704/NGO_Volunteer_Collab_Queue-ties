@@ -73,12 +73,12 @@ const Landing = () => {
     <section className="pt-40 font-poppins">
       <Navigation />
       <div className="mx-11 text-center">
-        <h1 ref={headingRef} className="text-6xl font-medium mb-6 font-harmonique">
+        <h1 ref={headingRef} className="text-6xl font-semibold mb-6 font-harmonique">
         Together, We Build  <span className="bg-primary px-5 rounded-full text-secondary">
         Stronger
           </span>
         </h1>
-        <h2 ref={subheadingRef} className="text-6xl font-medium mb-8 font-harmonique">
+        <h2 ref={subheadingRef} className="text-6xl font-semibold mb-8 font-harmonique">
         Communities Through Service
         </h2>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ngo1 from "../../assets/images/ngo1.png";
 import ngo2 from "../../assets/images/ngo2.png";
 import ngo3 from "../../assets/images/ngo3.png";
+import NewStoryModal from "./NewStoryModal"; // Adjust path based on your folder structure
 
 // Example story data
-const stories = [
+const initialStories = [
   { id: 1, username: "x_ae_23b", image: ngo1 },
   { id: 2, username: "maisenpai", image: ngo2 },
   { id: 3, username: "saylorwitf", image: ngo3 },
@@ -56,45 +58,35 @@ const groups = [
   { id: 3, name: "Urban Gardeners", members: 567 },
 ];
 
-// Modal component for adding a new story
-const NewStoryModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-96">
-        <h3 className="text-2xl font-semibold mb-4">Add New Story</h3>
-        <input
-          type="file"
-          className="mb-4 w-full border p-2 rounded"
-          accept="image/*"
-          placeholder="Upload your story image"
-        />
-        <div className="flex justify-end space-x-4">
-          <button
-            className="px-4 py-2 bg-blue-300 text-blue-900  rounded hover:bg-blue-100"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Add Story
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Community = () => {
+  
+  const [stories, setStories] = useState(initialStories);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await axios.get("http://localhost:4224/stories");
+        setStories(response.data); // Set fetched stories from backend
+      } catch (error) {
+        console.error("Error fetching stories:", error);
+      }
+    }
+  }, []);
+
+  // Function to handle opening the modal
   const handleCreateStoryClick = () => {
     setIsStoryModalOpen(true);
   };
 
+  // Function to handle closing the modal
   const handleCloseModal = () => {
     setIsStoryModalOpen(false);
+  };
+
+  // Function to add a new story to the story list
+  const handleAddStory = (newStory) => {
+    setStories([newStory, ...stories]); // Add the new story to the top of the list
   };
 
   return (
@@ -174,11 +166,11 @@ const Community = () => {
             Create New Post
           </h3>
           <input
-          type="file"
-          className="mb-4 w-full border p-2 rounded "
-          accept="image/*"
-          placeholder="Upload your story image"
-        />
+            type="file"
+            className="mb-4 w-full border p-2 rounded"
+            accept="image/*"
+            placeholder="Upload your post image"
+          />
           <textarea
             placeholder="What's on your mind?"
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
@@ -205,7 +197,11 @@ const Community = () => {
       </div>
 
       {/* New Story Modal */}
-      <NewStoryModal isOpen={isStoryModalOpen} onClose={handleCloseModal} />
+      <NewStoryModal
+        isOpen={isStoryModalOpen}
+        onClose={handleCloseModal}
+        onAddStory={handleAddStory} // Pass the function to handle adding a new story
+      />
     </div>
   );
 };
