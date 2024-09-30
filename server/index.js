@@ -7,6 +7,10 @@ import connectToDatabase from "./db/db.js";
 // Router imports
 import authRouter from "./routes/auth.route.js";
 import bodyParser from "body-parser";
+import { SessionsClient } from '@google-cloud/dialogflow';
+import { fileURLToPath } from 'url';
+import {dirname} from 'path';
+import path from 'path';
 
 const app = express();
 
@@ -34,6 +38,47 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // Routes
 app.use("/auth", authRouter);
+
+// Chatbot middleware
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const client = new SessionsClient({
+  keyFilename: path.join(__dirname, '/chatbot-api-key.json'), // Update the path
+});
+
+app.post('/api/chatbot', async (req, res) => {
+  const sessionId = req.body.sessionId; // Ensure this is coming from the request
+  const userQuery = req.body.queryInput.text.text; // Capture the user input text
+
+  if (!sessionId) {
+    return res.status(400).send('Session ID is required');
+  }
+  if (!userQuery) {
+    return res.status(400).send('User input text is required');
+  }
+
+  const sessionPath = client.projectAgentSessionPath('krisha-bot-diqt', sessionId);
+
+  const request = {
+    session: sessionPath,
+    queryInput: {
+      text: {
+        text: userQuery, // Ensure this is passed
+        languageCode: 'en',
+      },
+    },
+  };
+
+  try {
+    const responses = await client.detectIntent(request);
+    res.json(responses[0].queryResult);
+  } catch (error) {
+    console.error('Error detecting intent:', error);
+    res.status(500).send('Error detecting intent');
+  }
+});
+
 
 // Connect to the database
 connectToDatabase();
