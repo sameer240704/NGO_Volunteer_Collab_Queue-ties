@@ -221,3 +221,18 @@ export const getVolunteerById = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+export const getPrimaryImageByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Get userId from request parameters
+        const user = await User.findById(userId).select('primaryImage'); // Select only the primaryImage field
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ primaryImage: user.primaryImage });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

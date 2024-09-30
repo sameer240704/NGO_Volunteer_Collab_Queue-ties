@@ -54,10 +54,32 @@ export const getProjectById = async (req, res) => {
     }
 };
 
+// export const getTasksForProject = async (req, res) => {
+//     try {
+//         const { projectId } = req.params;
+//         const project = await Project.findById(projectId).populate('tasks');
+
+//         if (!project) {
+//             return res.status(404).json({ message: 'Project not found' });
+//         }
+
+//         res.status(200).json(project.tasks);
+//     } catch (error) {
+//         console.error('Error fetching tasks:', error);
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
 export const getTasksForProject = async (req, res) => {
     try {
         const { projectId } = req.params;
-        const project = await Project.findById(projectId).populate('tasks');
+        const project = await Project.findById(projectId).populate({
+            path: 'tasks',  // Populate tasks first
+            populate: {
+                path: 'assignee',  // Then, populate the 'assignee' field within tasks
+                select: 'name'  // Select only the 'name' field from User model
+            }
+        });
 
         if (!project) {
             return res.status(404).json({ message: 'Project not found' });
@@ -92,23 +114,49 @@ export const getTasksForProject = async (req, res) => {
 //     }
 // };
 
+// export const getVolunteersForProject = async (req, res) => {
+//     try {
+//         const { projectId } = req.params;
+
+//         // Find the project and populate its volunteers
+//         const project = await Project.findById(projectId).populate('volunteers', 'name');
+
+//         if (!project) {
+//             return res.status(404).json({ message: 'Project not found' });
+//         }
+
+//         // Extract volunteer IDs and names
+//         const volunteerInfo = project.volunteers.map(volunteer => ({
+//             id: volunteer._id, // Add the volunteer ID
+//             name: volunteer.name // Add the volunteer name
+//         }));
+        
+//         // Send back the volunteer information
+//         res.status(200).json(volunteerInfo);
+//     } catch (error) {
+//         console.error('Error fetching volunteers:', error);
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
 export const getVolunteersForProject = async (req, res) => {
     try {
         const { projectId } = req.params;
 
-        // Find the project and populate its volunteers
-        const project = await Project.findById(projectId).populate('volunteers', 'name');
+        // Find the project and populate its volunteers with name and primaryImage fields
+        const project = await Project.findById(projectId).populate('volunteers', 'name primaryImage');
 
         if (!project) {
             return res.status(404).json({ message: 'Project not found' });
         }
 
-        // Extract volunteer IDs and names
+        // Extract volunteer IDs, names, and primary images
         const volunteerInfo = project.volunteers.map(volunteer => ({
-            id: volunteer._id, // Add the volunteer ID
-            name: volunteer.name // Add the volunteer name
+            id: volunteer._id,         // Add the volunteer ID
+            name: volunteer.name,      // Add the volunteer name
+            primaryImage: volunteer.primaryImage // Add the volunteer primaryImage
         }));
-        
+
         // Send back the volunteer information
         res.status(200).json(volunteerInfo);
     } catch (error) {
