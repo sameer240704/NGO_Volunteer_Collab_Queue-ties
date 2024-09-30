@@ -92,7 +92,7 @@ const Community = () => {
   return (
     <div className=" bg-blue-100 overflow-hidden">
       <div className="flex justify-between">
-        <h2 className="text-5xl font-harmonique font-semibold text-primary mb-8">Community</h2>
+        <h2 className="text-5xl font-harmonique font-semibold text-primary mb-8">Community ygfrieuewoihejhd</h2>
         <div className="">
             <div className="flex space-x-2">
             <button 
