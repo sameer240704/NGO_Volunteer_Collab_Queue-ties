@@ -117,6 +117,8 @@ export const loginUser = async (req, res) => {
             message: "Login successful",
             token,
             userId: existingUser._id,
+            role: existingUser.role,
+            name: existingUser.name,
         });
     } catch (error) {
         console.error("Error in login:", error);
@@ -179,7 +181,7 @@ export const getUserById = async (req, res) => {
                 role: user.role,
                 address1: user.address1,
                 address2: user.address2,
-                city: user.state,
+                city: user.city,
                 state: user.state,
                 primaryImage: user.primaryImage,
                 ngoImages: user.ngoImages
@@ -203,4 +205,34 @@ export const addAdditionalUserDetails = (req, res, next) => {
 
 export const logoutUser = async (req, res) => {
     res.clearCookie('token').json({ message: "Logged out successfully" });
+};
+
+export const getVolunteerById = async (req, res) => {
+    try {
+        const { volunteerId } = req.params;
+        const volunteer = await User.findById(volunteerId).select('name');
+
+        if (!volunteer) {
+            return res.status(404).json({ message: 'Volunteer not found' });
+        }
+
+        res.status(200).json(volunteer);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+export const getPrimaryImageByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Get userId from request parameters
+        const user = await User.findById(userId).select('primaryImage'); // Select only the primaryImage field
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ primaryImage: user.primaryImage });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };

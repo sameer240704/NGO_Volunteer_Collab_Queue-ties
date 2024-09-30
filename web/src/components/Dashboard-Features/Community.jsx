@@ -1,200 +1,208 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ngo1 from "../../assets/images/ngo1.png";
+import ngo2 from "../../assets/images/ngo2.png";
+import ngo3 from "../../assets/images/ngo3.png";
+import NewStoryModal from "./NewStoryModal"; // Adjust path based on your folder structure
 
-// Simulated data for posts and groups
+// Example story data
+const initialStories = [
+  { id: 1, username: "x_ae_23b", image: ngo1 },
+  { id: 2, username: "maisenpai", image: ngo2 },
+  { id: 3, username: "saylorwitf", image: ngo3 },
+  { id: 4, username: "johndoe", image: ngo1 },
+  { id: 5, username: "maryjane2", image: ngo2 },
+];
+
 const posts = [
   {
     id: 1,
-    author: 'John Doe',
-    content: 'Just planted a new batch of tomatoes! 🍅 #OrganicFarming',
+    author: "John Doe",
+    content: "Just planted a new batch of tomatoes! 🍅 #OrganicFarming",
     likes: 15,
     comments: 3,
-    image: '/api/placeholder/400/300'
+    image: ngo2,
   },
   {
     id: 2,
-    author: 'Jane Smith',
-    content: 'Our community garden is thriving! Check out these beautiful sunflowers 🌻',
+    author: "Jane Smith",
+    content:
+      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
     likes: 24,
     comments: 7,
-    image: '/api/placeholder/400/300'
+    image: ngo2,
   },
   {
     id: 3,
-    author: 'Jane Smith',
-    content: 'Our community garden is thriving! Check out these beautiful sunflowers 🌻',
+    author: "Jane Smith",
+    content:
+      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
     likes: 24,
     comments: 7,
-    image: '/api/placeholder/400/300'
+    image: ngo2,
   },
   {
     id: 4,
-    author: 'Jane Smith',
-    content: 'Our community garden is thriving! Check out these beautiful sunflowers 🌻',
+    author: "Jane Smith",
+    content:
+      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
     likes: 24,
     comments: 7,
-    image: '/api/placeholder/400/300'
+    image: ngo2,
   },
-  {
-    id: 5,
-    author: 'Jane Smith',
-    content: 'Our community garden is thriving! Check out these beautiful sunflowers 🌻',
-    likes: 24,
-    comments: 7,
-    image: '/api/placeholder/400/300'
-  },
+
 ];
 
 const groups = [
-  { id: 1, name: 'Organic Farmers United', members: 1250 },
-  { id: 2, name: 'Sustainable Agriculture', members: 980 },
-  { id: 3, name: 'Urban Gardeners', members: 567 }
+  { id: 1, name: "Organic Farmers United", members: 1250 },
+  { id: 2, name: "Sustainable Agriculture", members: 980 },
+  { id: 3, name: "Urban Gardeners", members: 567 },
 ];
 
 const Community = () => {
-  const [activeTab, setActiveTab] = useState('posts');
-  const [newPost, setNewPost] = useState({ content: '', image: null });
-  const [isPosting, setIsPosting] = useState(false);
+  
+  const [stories, setStories] = useState(initialStories);
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
 
-  const handlePostSubmit = (e) => {
-    e.preventDefault();
-    setIsPosting(true);
-    // Simulate posting process
-    setTimeout(() => {
-      setIsPosting(false);
-      setNewPost({ content: '', image: null });
-      alert('Post submitted successfully! (This is a simulation)');
-    }, 2000);
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await axios.get("http://localhost:4224/stories");
+        setStories(response.data); // Set fetched stories from backend
+      } catch (error) {
+        console.error("Error fetching stories:", error);
+      }
+    }
+  }, []);
+
+  // Function to handle opening the modal
+  const handleCreateStoryClick = () => {
+    setIsStoryModalOpen(true);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewPost(prev => ({ ...prev, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
+  // Function to handle closing the modal
+  const handleCloseModal = () => {
+    setIsStoryModalOpen(false);
+  };
+
+  // Function to add a new story to the story list
+  const handleAddStory = (newStory) => {
+    setStories([newStory, ...stories]); // Add the new story to the top of the list
   };
 
   return (
-    <div className="h-full w-full flex flex-col bg-gray-100 overflow-hidden">
-      <div className="flex justify-be">
-        <h2 className="text-4xl font-harmonique font-semibold text-primary mb-8">Community</h2>
-        <div className="flex-shrink-0">
-        <div className="flex space-x-2">
-          <button 
-            onClick={() => setActiveTab('posts')} 
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
-              activeTab === 'posts' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+    <div className="flex h-full overflow-hidden text-lg">
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {/* Stories Section */}
+        <div className="flex space-x-4 mb-6 overflow-x-auto scrollbar-hide">
+          {/* Create New Story */}
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={handleCreateStoryClick}
           >
-            Posts
-          </button>
-          <button 
-            onClick={() => setActiveTab('groups')} 
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
-              activeTab === 'groups' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            Groups
-          </button>
-          <button 
-            onClick={() => setActiveTab('create')} 
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
-              activeTab === 'create' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            Create Post
-          </button>
+            <div className="w-24 h-24 rounded-full bg-secondary border-2 border-blue-500 flex items-center justify-center">
+              <span className="text-blue-500 text-3xl font-semibold">+</span>
+            </div>
+            <p className="mt-2 text-sm text-gray-700">Create Story</p>
+          </div>
+
+          {/* Existing Stories */}
+          {stories.map((story) => (
+            <div key={story.id} className="flex flex-col items-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-blue-500">
+                <img
+                  src={story.image}
+                  alt={story.username}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="mt-2 text-sm text-gray-700">{story.username}</p>
+            </div>
+          ))}
         </div>
-      </div>
-      </div>
 
-      <div className="flex-grow overflow-y-auto p-4">
-        {activeTab === 'create' && (
-          <form onSubmit={handlePostSubmit} className="bg-white p-6 rounded-lg shadow-md mb-6">
-            <textarea
-              value={newPost.content}
-              onChange={(e) => setNewPost(prev => ({ ...prev, content: e.target.value }))}
-              placeholder="What's on your mind?"
-              className="w-full p-2 border border-gray-300 rounded-md mb-4"
-              rows="4"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="mb-4"
-            />
-            {newPost.image && (
-              <img src={newPost.image} alt="Preview" className="w-full max-h-60 object-cover rounded-md mb-4" />
-            )}
-            <button
-              type="submit"
-              disabled={isPosting}
-              className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors ${
-                isPosting ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+        {/* Posts */}
+        <div className="grid grid-cols-2 gap-6">
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
             >
-              {isPosting ? 'Posting...' : 'Post to Instagram'}
-            </button>
-          </form>
-        )}
-
-        {activeTab === 'posts' && (
-          <div className="space-y-6">
-            {posts.map(post => (
-              <div key={post.id} className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-2">{post.author}</h3>
-                  <p className="text-gray-600 mb-4">{post.content}</p>
-                  <img src={post.image} alt="Post image" className="w-full rounded-md mb-4" />
-                  <div className="flex justify-between items-center">
-                    <div className="space-x-2">
-                      <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
-                        Like ({post.likes})
-                      </button>
-                      <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
-                        Comment ({post.comments})
-                      </button>
-                      <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
-                        Share
-                      </button>
-                    </div>
-                    <button 
-                      onClick={() => window.open(`https://instagram.com/p/placeholder-${post.id}`, '_blank')}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-                    >
-                      View More
+              <div className="p-4">
+                <h3 className="font-semibold text-2xl text-primary mb-2">
+                  {post.author}
+                </h3>
+                <p className="text-gray-600 mb-4">{post.content}</p>
+                <img
+                  src={post.image}
+                  alt="Post"
+                  className="w-full rounded-md mb-4"
+                />
+                <div className="flex justify-between items-center">
+                  <div className="space-x-4">
+                    <button className="text-red-500">
+                      ❤ Like ({post.likes})
                     </button>
+                    <button className="text-gray-500">
+                      💬 Comment ({post.comments})
+                    </button>
+                    <button className="text-gray-500">➤ Share</button>
                   </div>
+                  <button className="px-4 py-2 bg-accent text-white rounded-full hover:bg-blue-600 transition-colors">
+                    View More
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'groups' && (
-          <div className="space-y-4">
-            {groups.map(group => (
-              <div key={group.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-md">
-                <h3 className="font-semibold text-lg mb-2">{group.name}</h3>
-                <p className="text-gray-600 mb-4">{group.members} members</p>
-                <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors">
-                  Join Group
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* Right Sidebar */}
+      <div className="w-80 sticky top-4 h-screen overflow-y-auto">
+        {/* Create New Post */}
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
+          <h3 className="font-semibold text-xl text-primary mb-2">
+            Create New Post
+          </h3>
+          <input
+            type="file"
+            className="mb-4 w-full border p-2 rounded"
+            accept="image/*"
+            placeholder="Upload your post image"
+          />
+          <textarea
+            placeholder="What's on your mind?"
+            className="w-full p-2 border border-gray-300 rounded-md mb-2"
+            rows="3"
+          ></textarea>
+          <button className="w-full bg-accent text-white py-2 rounded-md hover:bg-blue-600 transition-colors">
+            Post
+          </button>
+        </div>
+
+        {/* Groups */}
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-6 rounded-lg shadow-lg shadow-blue-500/50">
+          <h3 className="font-semibold text-xl text-primary mb-4">Groups</h3>
+          {groups.map((group) => (
+            <div key={group.id} className="mb-4 last:mb-0">
+              <h4 className="font-semibold">{group.name}</h4>
+              <p className="text-sm text-gray-500">{group.members} members</p>
+              <button className="mt-2 px-4 py-1 bg-accent text-white text-lg rounded-full hover:bg-blue-600 transition-colors">
+                Join Group
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* New Story Modal */}
+      <NewStoryModal
+        isOpen={isStoryModalOpen}
+        onClose={handleCloseModal}
+        onAddStory={handleAddStory} // Pass the function to handle adding a new story
+      />
     </div>
   );
 };
