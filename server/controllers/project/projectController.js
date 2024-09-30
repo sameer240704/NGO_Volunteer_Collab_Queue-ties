@@ -70,6 +70,28 @@ export const getTasksForProject = async (req, res) => {
     }
 };
 
+// export const getVolunteersForProject = async (req, res) => {
+//     try {
+//         const { projectId } = req.params;
+
+//         // Find the project and populate its volunteers
+//         const project = await Project.findById(projectId).populate('volunteers', 'name');
+
+//         if (!project) {
+//             return res.status(404).json({ message: 'Project not found' });
+//         }
+
+//         // Extract volunteer names
+//         const volunteerNames = project.volunteers.map(volunteer => volunteer.name);
+        
+//         // Send back the volunteer names
+//         res.status(200).json(volunteerNames);
+//     } catch (error) {
+//         console.error('Error fetching volunteers:', error);
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
 export const getVolunteersForProject = async (req, res) => {
     try {
         const { projectId } = req.params;
@@ -81,11 +103,14 @@ export const getVolunteersForProject = async (req, res) => {
             return res.status(404).json({ message: 'Project not found' });
         }
 
-        // Extract volunteer names
-        const volunteerNames = project.volunteers.map(volunteer => volunteer.name);
+        // Extract volunteer IDs and names
+        const volunteerInfo = project.volunteers.map(volunteer => ({
+            id: volunteer._id, // Add the volunteer ID
+            name: volunteer.name // Add the volunteer name
+        }));
         
-        // Send back the volunteer names
-        res.status(200).json(volunteerNames);
+        // Send back the volunteer information
+        res.status(200).json(volunteerInfo);
     } catch (error) {
         console.error('Error fetching volunteers:', error);
         res.status(500).json({ message: error.message });

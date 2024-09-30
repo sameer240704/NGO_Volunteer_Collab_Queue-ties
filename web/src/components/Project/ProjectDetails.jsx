@@ -49,12 +49,23 @@ const ProjectDetails = ({ projectId }) => {
             }
         };
 
+        // const fetchVolunteers = async (projectId) => {
+        //     try {
+        //         const response = await fetch(`http://localhost:4224/project/${projectId}/volunteers`);
+        //         if (!response.ok) throw new Error('Failed to fetch volunteers');
+        //         const volunteersData = await response.json();
+        //         setVolunteers(volunteersData);
+        //     } catch (error) {
+        //         console.error('Error fetching volunteers:', error);
+        //     }
+        // };
+
         const fetchVolunteers = async (projectId) => {
             try {
                 const response = await fetch(`http://localhost:4224/project/${projectId}/volunteers`);
                 if (!response.ok) throw new Error('Failed to fetch volunteers');
                 const volunteersData = await response.json();
-                setVolunteers(volunteersData);
+                setVolunteers(volunteersData); // This will now be an array of objects with id and name
             } catch (error) {
                 console.error('Error fetching volunteers:', error);
             }
@@ -66,6 +77,11 @@ const ProjectDetails = ({ projectId }) => {
     if (!project) {
         return <div className="text-center">Loading...</div>;
     }
+
+    const getAssigneeName = (assigneeId) => {
+        const volunteer = volunteers.find(vol => vol._id === assigneeId);
+        return volunteer ? volunteer.name : 'Unassigned';
+    };
 
     return (
         <div>
@@ -94,7 +110,7 @@ const ProjectDetails = ({ projectId }) => {
                 </div>
                 {!complete && (
                     <button
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 ml-[47%]"
                         onClick={() => {
                             currentStep === steps.length
                                 ? setComplete(true)
@@ -113,7 +129,7 @@ const ProjectDetails = ({ projectId }) => {
                         tasks.map(task => (
                             <div key={task._id} className="bg-white shadow-md rounded-lg p-4 mb-4">
                                 <h3 className="font-bold text-md">{task.title}</h3>
-                                <p className="text-sm text-gray-600">Assigned to: {task.assignee || 'Unassigned'}</p>
+                                <p className="text-sm text-gray-600">Assigned to: {getAssigneeName(task.assignee) || 'Unassigned'}</p>
                             </div>
                         ))
                     ) : (
@@ -126,7 +142,7 @@ const ProjectDetails = ({ projectId }) => {
                     {volunteers.length > 0 ? (
                         volunteers.map(volunteer => (
                             <div key={volunteer._id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-                                <h3 className="font-bold text-md">{volunteer}</h3>
+                                <h3 className="font-bold text-md">{volunteer.name}</h3>
                             </div>
                         ))
                     ) : (

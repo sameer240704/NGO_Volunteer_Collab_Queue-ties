@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import ProfilePhoto from '../assets/images/ngo3.png'; 
 import Community from '../components/Dashboard-Features/Community';
-import Market from './Dashboard-Features/Market';
+//import Market from './Dashboard-Features/Market';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuthContext } from '../context/AuthContext';
+//import { useAuthContext } from '../context/AuthContext';
 import Projects from './Project/Projects';
 
 const Dashboard = () => {
