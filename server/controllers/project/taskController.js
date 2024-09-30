@@ -51,3 +51,18 @@ export const assignVolunteerToTask = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+export const getTaskById = async (req, res) => {
+    try {
+        const { taskId } = req.params;
+        const task = await Task.findById(taskId).populate('assignee', 'name');
+        
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.status(200).json(task);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

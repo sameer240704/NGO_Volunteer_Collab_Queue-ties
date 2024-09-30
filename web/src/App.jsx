@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './components/Landing';
 import Dashboard from './components/Dashboard';
+import Projects from "./components/Project/Projects.jsx";
 import Chatbot from './components/ChatBot';
 
 const App = () => {
