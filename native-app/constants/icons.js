@@ -18,6 +18,8 @@ import message from "../assets/icons/message.png";
 import camera from "../assets/icons/camera.png";
 import deleteBtn from "../assets/icons/delete.png"
 import gallery from "../assets/icons/gallery.png";
+import community from "../assets/icons/community.png";
+import add from "../assets/icons/add.png";
 
 export default {
   play,
@@ -39,5 +41,7 @@ export default {
   message,
   camera,
   gallery,
-  deleteBtn
+  deleteBtn,
+  community,
+  add
 };
