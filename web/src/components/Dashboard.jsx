@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import Logo from "../assets/images/logoimg.png";
-import ProfilePhoto from "../assets/images/ngo3.png";
-import Community from "../components/Dashboard-Features/Community";
-import Projects from "./Project/Projects";
+
+import React, { useEffect, useState } from 'react';
+import Logo from '../assets/images/logo.png';
+import ProfilePhoto from '../assets/images/ngo3.png'; 
+import Community from '../components/Dashboard-Features/Community';
+import Market from './Dashboard-Features/Market';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuthContext } from '../context/AuthContext';
+import Projects from './Project/Projects';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -72,7 +77,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-blue-100 p-10">
+      <div className="flex-1 bg-blue-100 p-10 ">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "community" && "Community"}
