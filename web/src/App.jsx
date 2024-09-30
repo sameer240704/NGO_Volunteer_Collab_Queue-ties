@@ -7,11 +7,11 @@ import Chatbot from './components/ChatBot';
 const App = () => {
   return (
     <Router>
-      <div className="bg-secondary min-h-screen"> {/* Set background color here */}
-        {/* <Routes>
+      <div className="bg-secondary min-h-screen">
+        <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
-        </Routes> */}
+        </Routes>
         <Chatbot />
       </div>
     </Router>

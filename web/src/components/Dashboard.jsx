@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo from '../assets/images/logoimg.png';
+import Logo from '../assets/images/logo.png';
 import ProfilePhoto from '../assets/images/ngo3.png'; 
 import Community from '../components/Dashboard-Features/Community';
 import Market from './Dashboard-Features/Market';
@@ -22,7 +22,7 @@ const Dashboard = () => {
       <div className="bg-primary text-white w-84 py-8 pl-8 flex flex-col justify-between relative">
         <div>
           <div className="flex items-center mb-10">
-            <img src="" alt="Logo" className="w-20 h-16" />
+            <img src={Logo} alt="Logo" className="w-20 h-16" />
             <h1 className="text-2xl font-semibold font-poppins mr-8">ForACause</h1>
           </div>
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
           </div>
 
           <div
-            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-[#1c280c] font-poppins cursor-pointer text-center rounded-lg hover:bg-[#b0c7a2] transition-colors"
+            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-[#b0c7a2] transition-colors"
             onClick={handleLogout}
           >
             Logout
@@ -73,7 +73,7 @@ const Dashboard = () => {
 
           {(activeSection === 'marketplace') && <Market />}
         <div className="grid grid-cols-3 gap-6">
-          {(activeSection === 'overview' || activeSection === 'community') && <Community />}
+          {(activeSection === 'community' || activeSection === 'community') && <Community />}
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ const Dashboard = () => {
 const SidebarLink = ({ label, isActive, onClick }) => (
   <div
     onClick={onClick}
-    className={`cursor-pointer flex items-center font-medium text-xl py-4 px-6 transition-colors duration-200
+    className={`cursor-pointer flex items-center font-medium text-xl py-4 px-5 transition-colors duration-200
       ${isActive ? 'bg-secondary text-blue-900' : 'hover:bg-accent'}
     `}
     style={isActive ? { borderRadius: '40px 0px 0px 40px' } : {}}
