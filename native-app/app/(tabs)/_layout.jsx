@@ -4,7 +4,7 @@ import { Tabs } from "expo-router";
 import { icons } from "../../constants";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
-import { useFarmerData } from "../../context/useProfileData";
+import { useUserData } from "../../context/useProfileData";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -35,14 +35,14 @@ const TabIcon = ({ icon, color, name, focused }) => {
         <Image
           source={icon}
           resizeMode="contain"
-          style={{ tintColor: color, height: 24, width: 24 }}
+          style={{ tintColor: color, height: 20, width: 20 }}
         />
       </Animated.View>
       <Animated.Text
         className={`text-[12px] ${
           focused
-            ? "font-bold text-primary-400"
-            : "font-normal text-secondary-200"
+            ? "font-bold text-primary-900"
+            : "font-normal text-primary-300"
         }`}
       >
         {name}
@@ -55,33 +55,27 @@ const TabsLayout = () => {
   const insets = useSafeAreaInsets();
 
   const { t, i18n } = useTranslation();
-  const { farmerData, isLoading, error } = useFarmerData();
+  const { farmerData, isLoading, error } = useUserData();
 
   const handleLanguageChange = (langCode) => {
     i18n.changeLanguage(langCode);
   };
 
-  useEffect(() => {
-    if (farmerData.language) {
-      handleLanguageChange(farmerData.language);
-    }
-  }, [farmerData]);
-
   return (
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "#4a9f2f",
-        tabBarInactiveTintColor: "#b0b0b0",
+        tabBarActiveTintColor: "#175B83",
+        tabBarInactiveTintColor: "#A7C6E7",
         tabBarStyle: {
           position: "absolute",
           bottom: insets.bottom,
-          left: 10,
-          right: 10,
-          bottom: 6,
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          borderRadius: 20,
-          height: 60,
+          left: 5,
+          right: 5,
+          bottom: 5,
+          backgroundColor: "#E0F7FA",
+          borderRadius: 10,
+          height: 55,
           paddingBottom: 10,
           shadowColor: "#000",
           shadowOffset: {
@@ -89,7 +83,7 @@ const TabsLayout = () => {
             height: 4,
           },
           shadowOpacity: 0.1,
-          shadowRadius: 6,
+          shadowRadius: 2,
           elevation: 10,
         },
         tabBarItemStyle: {
@@ -128,21 +122,6 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="chatbot"
-        options={{
-          title: t("krishak.ai"),
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.chatbot}
-              color={color}
-              name={t("krishak.ai")}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="weather"
         options={{
           title: t("weather"),
@@ -158,15 +137,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="message"
+        name="community"
         options={{
-          title: t("message"),
+          title: t("community"),
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              icon={icons.message}
+              icon={icons.community}
               color={color}
-              name={t("message")}
+              name={t("community")}
               focused={focused}
             />
           ),

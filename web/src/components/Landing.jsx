@@ -8,6 +8,8 @@ import ngo5 from '../assets/images/ngo5.png';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import About from './About';
+import Features from './Features';
+import Footer from './Footer';
 
 const Landing = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -156,6 +158,8 @@ const Landing = () => {
         </div>
       </div>
       <About/>
+      <Features/>
+      <Footer/>
     </section>
   );
 };

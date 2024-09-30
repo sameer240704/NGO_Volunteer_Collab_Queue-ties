@@ -16,7 +16,7 @@ export default function App() {
     <SafeAreaView className="flex-1">
       <StatusBar />
       <View className="absolute w-full">
-        <Image source={images.bgBlock} className="" resizeMode="contain" />
+        <Image source={images.bgBlock} className="-mt-1" resizeMode="contain" />
       </View>
       <View className="flex-1 justify-center items-center px-5">
         <View className="w-24 h-24 bg-white rounded-full flex justify-center items-center mt-20 mb-5">
@@ -39,7 +39,7 @@ export default function App() {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#36D080",
+            backgroundColor: "#2C72B5",
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.25,
