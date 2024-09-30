@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard';
 const App = () => {
   return (
     <Router>
-      <div className="bg-secondary min-h-screen"> {/* Set background color here */}
+      <div className="bg-secondary min-h-screen">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />

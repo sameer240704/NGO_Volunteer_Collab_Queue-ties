@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/logoimg.png';
+import Logo from '../assets/images/logo.png';
 
 const Navigation = () => {
     
@@ -8,7 +8,7 @@ const Navigation = () => {
     <header className="bg-white px-6">
       <div className="mx-16 flex justify-between items-center">
         <div className="flex items-center fixed top-5 left-20 z-50">
-          <img src="" alt="Logo" className="w-16 mr-3" />
+          <img src={Logo} alt="Logo" className="w-20 -mr-3" />
           <span className="text-3xl font-mono font-semibold text-primary pr-4">ForACause</span>
         <div></div>
         </div>
@@ -26,7 +26,7 @@ const Navigation = () => {
         >
         <div className="flex space-x-4">
           <Link to="/login">
-            <button className="bg-primary font-harmonique text-lg text-white px-8 py-3 rounded-full hover:bg-green-800 transition duration-300">
+            <button className="bg-primary font-harmonique text-lg text-white px-8 py-3 rounded-full hover:bg-blue-800 transition duration-300">
               Login
             </button>
           </Link>
