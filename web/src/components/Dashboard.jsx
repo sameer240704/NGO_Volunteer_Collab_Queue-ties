@@ -41,7 +41,7 @@ const Dashboard = () => {
 
         {/* Profile and Logout Section */}
         <div className="mt-auto">
-          <div className="flex items-center space-x-4 p-4 hover:bg-[#c0d4ae] cursor-pointer rounded-lg transition-colors mr-8">
+          <div className="flex items-center space-x-4 p-4 hover:bg-accent cursor-pointer rounded-lg transition-colors mr-8">
             <img src={ProfilePhoto} alt="Profile" className="w-12 h-12 rounded-full" />
             <div>
               <h3 className="text-lg font-medium font-poppins">Aditi Ambasta</h3>
@@ -49,7 +49,7 @@ const Dashboard = () => {
           </div>
 
           <div
-            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-[#b0c7a2] transition-colors"
+            className="mt-2 mr-8 py-4 px-6 text-lg bg-secondary text-primary font-poppins cursor-pointer text-center rounded-lg hover:bg-blue-200 transition-colors"
             onClick={handleLogout}
           >
             Logout
@@ -58,12 +58,12 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-secondary p-10">
+      <div className="flex-1 bg-blue-100 p-10">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === 'overview' && 'Dashboard Overview'}
         </h1>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div>
           {(activeSection === 'community' || activeSection === 'community') && <Community />}
         </div>
       </div>
@@ -75,7 +75,7 @@ const SidebarLink = ({ label, isActive, onClick }) => (
   <div
     onClick={onClick}
     className={`cursor-pointer flex items-center font-medium text-xl py-4 px-5 transition-colors duration-200
-      ${isActive ? 'bg-secondary text-blue-900' : 'hover:bg-accent'}
+      ${isActive ? 'bg-blue-100 text-blue-900' : 'hover:bg-accent'}
     `}
     style={isActive ? { borderRadius: '40px 0px 0px 40px' } : {}}
   >
