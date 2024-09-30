@@ -53,13 +53,23 @@ export const createStories = async (req, res) => {
 
 // Get all stories
 export const getAllStories = async (req, res) => {
-  try {
-    // Fetch all stories from the database
-    const stories = await Story.find().sort({ createdAt: -1 }); // Sort by newest first
+    try {
+        const stories = await Stories.find();
 
-    return res.status(200).json(stories);
-  } catch (error) {
-    console.error("Error fetching stories:", error);
-    return res.status(500).json({ message: "Internal server error." });
-  }
+        const formattedStories = await Promise.all(stories.map(async (story) => {
+            return {
+                userName: story.uploadedBy,
+                imageUrl: story.imageUrl,
+                videoUrl: story.videoUrl
+            };
+        }));
+
+        res.status(200).json({
+            message: "Stories fetched successfully",
+            stories: formattedStories
+        });
+    } catch (error) {
+        console.error("Error fetching stories:", error);
+        res.status(500).json({ message: "Error fetching stories", error });
+    }
 };
