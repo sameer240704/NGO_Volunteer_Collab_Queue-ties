@@ -16,11 +16,15 @@ export const AuthContextProvider = ({ children }) => {
             localStorage.setItem("ngo-user", JSON.stringify(authUser));
 
             Cookies.set('userId', authUser.userId, { expires: 7 }); 
-            Cookies.set('userType', authUser.userType, { expires: 7 }); 
+            Cookies.set('userType', authUser.userType, { expires: 7 });
+            Cookies.set('role', authUser.role, {expires: 7} );
+            Cookies.set('userName', authUser.name, {expires: 7} ); 
         } else {
             
             Cookies.remove('userId');
             Cookies.remove('userType');
+            Cookies.remove('role');
+            Cookies.remove('userName');
         }
     }, [authUser]);
 

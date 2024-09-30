@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "./stepper.css";
 import { TiTick } from "react-icons/ti";
+import { useAuthContext } from '../../context/AuthContext.jsx'; // Importing auth context
+import CreateTaskModal from './CreateTaskModal';
 
 const ProjectDetails = ({ projectId }) => {
     const [project, setProject] = useState(null);
@@ -10,6 +12,8 @@ const ProjectDetails = ({ projectId }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [complete, setComplete] = useState(false);
     const [progress, setProgress] = useState(0);
+    const { authUser } = useAuthContext(); // Access user role from context
+    const [showModal, setShowModal] = useState(false); 
 
     useEffect(() => {
         const fetchProjectDetails = async () => {
@@ -72,7 +76,7 @@ const ProjectDetails = ({ projectId }) => {
         };
 
         fetchProjectDetails();
-    }, [projectId]);
+    }, [projectId, showModal]);
 
     if (!project) {
         return <div className="text-center">Loading...</div>;
@@ -121,6 +125,23 @@ const ProjectDetails = ({ projectId }) => {
                     </button>
                 )}
             </div>
+
+            {/* Add Ticket Button for Admins */}
+            {authUser?.role === 'admin' && (
+                <div className="text-right mt-4">
+                    <button 
+                        onClick={() => setShowModal(true)} 
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                    >
+                        Add Ticket
+                    </button>
+                </div>
+            )}
+
+            {/* Task Modal */}
+            {showModal && (
+                <CreateTaskModal projectId={projectId} onClose={() => setShowModal(false)} />
+            )}
 
             <div className="grid grid-cols-3 gap-6">
                 <div className="col-span-2">
