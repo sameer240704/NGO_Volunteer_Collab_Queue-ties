@@ -72,6 +72,11 @@ const Market = () => {
     }
   };
 
+  // Function to add a new story to the story list
+  const handleAddStory = (newStory) => {
+    setStories([newStory, ...stories]); // Add the new story to the top of the list
+  };
+
   return (
     <>
       <div className="relative -mt-7">
