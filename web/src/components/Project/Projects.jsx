@@ -17,7 +17,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 ">
       {/* Conditionally render project details or project list */}
       {selectedProject ? (
         <ProjectDetails projectId={selectedProject} key={selectedProject} onBack={() => setSelectedProject(null)} />

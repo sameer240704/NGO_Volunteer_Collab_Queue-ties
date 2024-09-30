@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import Logo from '../assets/images/logo.png';
-import ProfilePhoto from '../assets/images/ngo3.png'; 
 import Community from '../components/Dashboard-Features/Community';
 import Market from './Dashboard-Features/Market';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import Projects from './Project/Projects';
+import Overview from './Dashboard-Features/Overview';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-  const {authUser} = useAuthContext();
+  const { authUser } = useAuthContext();
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
   };
 
   const handleLogout = async () => {
-    // Placeholder for logout logic or navigation if needed
-    try{
+    try {
       const response = await axios.post('http://localhost:4224/auth/logout');
       const data = response.data;
       if (data.error) throw new Error(data.error);
       navigate('/');
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
     }
   };
@@ -38,23 +36,18 @@ const Dashboard = () => {
         const data = response.data;
         setUser(data);
         if (data.error) throw new Error(data.error);
-        setUser(data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchUser();
-  }
-  , [authUser.userId]);
-
-  console.log(user.user);
-  
+  }, [authUser.userId]);
 
   return (
-    <div className="flex h-screen font-poppins">
+    <div className="min-h-screen flex font-poppins bg-gradient-to-b from-blue-100 to-blue-300">
       {/* Sidebar */}
-      <div className="bg-primary text-white w-84 py-8 pl-8 flex flex-col justify-between relative">
+      <div className="bg-primary fixed text-white w-84 py-8 pl-8 flex flex-col justify-between h-screen">
         <div>
           <div className="flex items-center mb-10">
             <img src={Logo} alt="Logo" className="w-20 h-16" />
@@ -63,7 +56,7 @@ const Dashboard = () => {
             </h1>
           </div>
 
-          <nav className="space-y-5">
+          <nav className="space-y-4">
             <SidebarLink
               label="Overview"
               isActive={activeSection === "overview"}
@@ -106,7 +99,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-blue-100 p-10 ">
+      <div className="flex-1 p-10 pl-80 overflow-y-auto">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "marketplace" && "Market Place"}
@@ -114,9 +107,8 @@ const Dashboard = () => {
         </h1>
 
         <div>
-          {(activeSection === "community" || activeSection === "community") && (
-            <Community />
-          )}
+          {activeSection === "overview" && <Overview />}
+          {activeSection === "community" && <Community />}
         </div>
         {activeSection === "marketplace" && <Market />}
         {activeSection === "projects" && <Projects />}
@@ -129,7 +121,7 @@ const SidebarLink = ({ label, isActive, onClick }) => (
   <div
     onClick={onClick}
     className={`cursor-pointer flex items-center font-medium text-xl py-4 px-5 transition-colors duration-200
-      ${isActive ? "bg-blue-100 text-blue-900" : "hover:bg-accent"}
+      ${isActive ? "bg-[#cde3fe] text-blue-900" : "hover:bg-accent"}
     `}
     style={isActive ? { borderRadius: "40px 0px 0px 40px" } : {}}
   >

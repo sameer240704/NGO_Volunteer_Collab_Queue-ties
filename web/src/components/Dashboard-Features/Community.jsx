@@ -31,7 +31,7 @@ const posts = [
     image: ngo2,
   },
   {
-    id: 2,
+    id: 3,
     author: "Jane Smith",
     content:
       "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
@@ -40,7 +40,7 @@ const posts = [
     image: ngo2,
   },
   {
-    id: 2,
+    id: 4,
     author: "Jane Smith",
     content:
       "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
@@ -61,7 +61,7 @@ const NewStoryModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-96">
         <h3 className="text-2xl font-semibold mb-4">Add New Story</h3>
         <input
@@ -70,14 +70,9 @@ const NewStoryModal = ({ isOpen, onClose }) => {
           accept="image/*"
           placeholder="Upload your story image"
         />
-        <textarea
-          placeholder="Write something about your story..."
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-          rows="3"
-        ></textarea>
         <div className="flex justify-end space-x-4">
           <button
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-4 py-2 bg-blue-300 text-blue-900  rounded hover:bg-blue-100"
             onClick={onClose}
           >
             Cancel
@@ -103,7 +98,7 @@ const Community = () => {
   };
 
   return (
-    <div className="flex h-full bg-blue-100 overflow-hidden text-lg">
+    <div className="flex h-full overflow-hidden text-lg">
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Stories Section */}
@@ -139,7 +134,7 @@ const Community = () => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
+              className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
             >
               <div className="p-4">
                 <h3 className="font-semibold text-2xl text-primary mb-2">
@@ -174,10 +169,16 @@ const Community = () => {
       {/* Right Sidebar */}
       <div className="w-80 sticky top-4 h-screen overflow-y-auto">
         {/* Create New Post */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
           <h3 className="font-semibold text-xl text-primary mb-2">
             Create New Post
           </h3>
+          <input
+          type="file"
+          className="mb-4 w-full border p-2 rounded "
+          accept="image/*"
+          placeholder="Upload your story image"
+        />
           <textarea
             placeholder="What's on your mind?"
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
@@ -189,7 +190,7 @@ const Community = () => {
         </div>
 
         {/* Groups */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4">
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-6 rounded-lg shadow-lg shadow-blue-500/50">
           <h3 className="font-semibold text-xl text-primary mb-4">Groups</h3>
           {groups.map((group) => (
             <div key={group.id} className="mb-4 last:mb-0">
