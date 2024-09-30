@@ -9,6 +9,7 @@ const ProjectDetails = ({ projectId }) => {
     const steps = ["Planning", "Before Event", "Event Day", "Post Event"];
     const [currentStep, setCurrentStep] = useState(1);
     const [complete, setComplete] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         const fetchProjectDetails = async () => {
@@ -16,6 +17,19 @@ const ProjectDetails = ({ projectId }) => {
                 const response = await fetch(`http://localhost:4224/project/${projectId}`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
+                if(data.project.status == "Planning"){
+                    setProgress(25);
+                    setCurrentStep(1);
+                } else if(data.project.status == "Before Event") {
+                    setProgress(50);
+                    setCurrentStep(2);
+                } else if(data.project.status == "On Event Day") {
+                    setProgress(75);
+                    setCurrentStep(3);
+                } else {
+                    setCurrentStep(4);
+                    setProgress(100);
+                }
                 setProject(data.project);
                 await fetchTasks(data.project._id);
                 await fetchVolunteers(data.project._id);
@@ -59,7 +73,7 @@ const ProjectDetails = ({ projectId }) => {
                 <h1 className="text-4xl font-bold">{project.title}</h1>
                 <p className="mt-2 text-lg text-gray-600">{project.description}</p>
                 <div class="w-[40%] bg-gray-200 rounded-full h-[20px] dark:bg-gray-700">
-                    <div class="bg-blue-600 h-[20px] rounded-full" style={{width: "45%"}}></div>
+                    <div class="bg-blue-600 h-[20px] rounded-full" style={{width: `${progress}%`}}></div>
                 </div>
             </div>
 
@@ -80,7 +94,7 @@ const ProjectDetails = ({ projectId }) => {
                 </div>
                 {!complete && (
                     <button
-                        className="btn"
+                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
                         onClick={() => {
                             currentStep === steps.length
                                 ? setComplete(true)
