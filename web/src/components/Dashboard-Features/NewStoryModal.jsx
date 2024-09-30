@@ -15,6 +15,24 @@ const NewStoryModal = ({ isOpen, onClose, onAddStory }) => {
   };
 
   console.log(selectedFile);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4224/auth/getUser/${authUser.userId}`);
+        const data = response.data;
+        setUser(data);
+        if (data.error) throw new Error(data.error);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, [authUser.userId]);
+  
+  // console.log(user.user.name);
+  const userName = user.user?.name;
   
   // Function to handle story submission
   const handleAddStory = async () => {
@@ -31,7 +49,8 @@ const NewStoryModal = ({ isOpen, onClose, onAddStory }) => {
 
     try {
       setUploading(true);
-      const response = await axios.post("http://localhost:4224/community/createStory ", formData, {
+
+      const response = await axios.post("http://localhost:4224/stories/create ", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

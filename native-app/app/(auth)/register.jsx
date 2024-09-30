@@ -26,17 +26,23 @@ const Register = () => {
   const { t } = useTranslation();
 
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     password: "",
     email: "",
     phone: "",
-    language: "",
-    userImage: null,
+    role: "ngo",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    primaryImage: null,
+    ngoImages: [],
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageSourceModalVisible, setImageSourceModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [currentSelected, setCurrentSelected] = useState("ngo");
   const { register } = useAuthContext();
 
   const pickImage = async (mode) => {
@@ -68,7 +74,7 @@ const Register = () => {
     if (!pickerResult.canceled && pickerResult.assets.length > 0) {
       setForm({
         ...form,
-        userImage: {
+        primaryImage: {
           uri: pickerResult.assets[0].uri,
           name: pickerResult.assets[0].fileName,
           type: pickerResult.assets[0].mimeType,
@@ -120,12 +126,13 @@ const Register = () => {
     }
   };
 
-  const handleLanguageChange = (itemValue) => {
-    setForm({ ...form, language: itemValue });
+  const deleteUserImage = () => {
+    setForm({ ...form, primaryImage: null });
   };
 
-  const deleteImage = () => {
-    setForm({ ...form, userImage: null });
+  const handleUserTypeChange = (itemValue) => {
+    setCurrentSelected(itemValue);
+    setForm({ ...form, role: itemValue });
   };
 
   return (
@@ -142,15 +149,15 @@ const Register = () => {
           </View>
 
           <Text className="text-3xl font-bold mb-2">
-            <Text className="text-green-500">{t("registerTitle")}</Text>{" "}
+            <Text className="text-primary-100">{t("registerTitle")}</Text>{" "}
             {t("now")} !
           </Text>
 
           <View className="space-y-4">
             <FormField
-              name={t("fullName")}
-              value={form.fullName}
-              handleChange={(e) => setForm({ ...form, fullName: e })}
+              name={t(`${currentSelected}Name`)}
+              value={form.name}
+              handleChange={(e) => setForm({ ...form, name: e })}
               customStyles="mt-8"
             />
 
@@ -178,23 +185,95 @@ const Register = () => {
               customStyles="mt-7 mb-3"
             />
 
-            <View className="mb-3 mt-7 space-y-2">
+            <View className="mb-4 mt-7">
               <Text className="text-base text-black font-semibold">
-                {t("uploadImage")}
+                {t("userType")}
               </Text>
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderColor: "#64748b",
+                  borderRadius: 6,
+                  overflow: "hidden",
+                  marginTop: 8,
+                }}
+              >
+                <Picker
+                  selectedValue={form.role}
+                  onValueChange={handleUserTypeChange}
+                  style={{
+                    height: 50,
+                    width: "100%",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <Picker.Item label="NGO" value="ngo" />
+                  <Picker.Item label="Volunteer" value="volunteer" />
+                </Picker>
+              </View>
+            </View>
+
+            {currentSelected === "ngo" && (
+              <FormField
+                name={t("address1")}
+                value={form.phone}
+                handleChange={(e) => setForm({ ...form, address1: e })}
+                keyboardType="phone-pad"
+                customStyles="mt-5 mb-3"
+              />
+            )}
+
+            {currentSelected === "ngo" && (
+              <FormField
+                name={t("address2")}
+                value={form.phone}
+                handleChange={(e) => setForm({ ...form, address2: e })}
+                keyboardType="phone-pad"
+                customStyles="mt-5 mb-3"
+              />
+            )}
+
+            <FormField
+              name={t("city")}
+              value={form.city}
+              handleChange={(e) => setForm({ ...form, city: e })}
+              keyboardType="phone-pad"
+              customStyles="mt-4 mb-3"
+            />
+
+            <FormField
+              name={t("state")}
+              value={form.state}
+              handleChange={(e) => setForm({ ...form, state: e })}
+              keyboardType="phone-pad"
+              customStyles="mt-4 mb-3"
+            />
+
+            <View className="mb-3 mt-7 space-y-2">
+              {form.role === "ngo" && (
+                <Text className="text-base text-black font-semibold">
+                  {t("ngoImage")}
+                </Text>
+              )}
+
+              {form.role === "volunteer" && (
+                <Text className="text-base text-black font-semibold">
+                  {t("volunteerImage")}
+                </Text>
+              )}
               <TouchableOpacity
                 onPress={() => setImageSourceModalVisible(true)}
                 className="w-full h-12 px-4 bg-white-100 border-2 border-slate-500 rounded-md focus:border-slate-400 justify-center"
               >
                 <Text className="text-[#7b7b8b] font-medium text-base">
-                  {form.userImage ? t("changeImage") : t("selectImage")}
+                  {form.primaryImage ? t("changeImage") : t("selectImage")}
                 </Text>
               </TouchableOpacity>
 
-              {form.userImage && (
+              {form.primaryImage && (
                 <View className="flex flex-row items-center gap-x-2">
                   <TouchableOpacity
-                    onPress={deleteImage}
+                    onPress={deleteUserImage}
                     className="w-10 flex flex-col items-center rounded-lg bg-slate-100 hover:bg-slate-300 px-4 py-3"
                   >
                     <Image source={icons.deleteBtn} className="h-4 w-4" />
@@ -230,7 +309,7 @@ const Register = () => {
                         <View className="bg-white rounded-lg p-4 w-3/4">
                           <Image
                             source={{
-                              uri: form.userImage.uri,
+                              uri: form.primaryImage.uri,
                             }}
                             className="w-full h-64 rounded-md bg-opacity-50"
                             resizeMode="contain"
@@ -252,35 +331,6 @@ const Register = () => {
               )}
             </View>
 
-            <View className="mb-4 mt-7">
-              <Text className="text-base text-black font-semibold">
-                {t("language")}
-              </Text>
-              <View
-                style={{
-                  borderWidth: 2,
-                  borderColor: "#64748b",
-                  borderRadius: 6,
-                  overflow: "hidden",
-                  marginTop: 8,
-                }}
-              >
-                <Picker
-                  selectedValue={form.language}
-                  onValueChange={handleLanguageChange}
-                  style={{
-                    height: 50,
-                    width: "100%",
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  <Picker.Item label="English" value="en" />
-                  <Picker.Item label="हिंदी" value="hi" />
-                  <Picker.Item label="मराठी" value="mr" />
-                </Picker>
-              </View>
-            </View>
-
             <CustomButton
               title={t("signUp")}
               handlePress={submitForm}
@@ -292,7 +342,7 @@ const Register = () => {
             <View className="flex-row justify-center mt-6 gap-x-1">
               <Text className="text-gray-600">{t("alreadyAccount")}</Text>
               <Link href="/login">
-                <Text className="text-green-500 font-semibold">
+                <Text className="text-primary-100 font-semibold">
                   {t("signIn")}
                 </Text>
               </Link>
