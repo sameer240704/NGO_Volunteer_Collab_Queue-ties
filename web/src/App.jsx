@@ -4,8 +4,6 @@ import Landing from './components/Landing';
 import Dashboard from './components/Dashboard';
 import Projects from "./components/Project/Projects.jsx";
 import Chatbot from './components/ChatBot';
-import Login from './components/Login';
-import Signup from './components/Signup';
 
 const App = () => {
   return (
@@ -14,8 +12,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {<Route path="/login" element={<Login />} />}
-          <Route path="/register" element={<Signup />} />
         </Routes>
         <Chatbot />
       </div>
