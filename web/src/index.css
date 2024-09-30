@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-shape1 {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 10%, 65% 10%, 65% 0%, 0 0%, 0% 20%);
+    border-radius: 30px;
+  }
+  
+  .custom-shape2 {
+    clip-path: polygon(100% 100%, 0% 100%, 0% 10%, 35% 10%, 35% 0%, 100% 0%, 100% 20%);
+    border-radius: 30px;
+  }
+  
+  .custom-shape3 {
+    clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  }
+  

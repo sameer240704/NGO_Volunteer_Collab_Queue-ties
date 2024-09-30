@@ -6,6 +6,10 @@ import cloudinary from "cloudinary";
 import connectToDatabase from "./db/db.js";
 // Router imports
 import authRouter from "./routes/auth.route.js";
+import projectRouter from "./routes/projectRoutes.js";
+import taskRouter from "./routes/taskRoutes.js";
+import commentRouter from "./routes/commentRoutes.js";
+
 import bodyParser from "body-parser";
 import { SessionsClient } from '@google-cloud/dialogflow';
 import { fileURLToPath } from 'url';
@@ -38,6 +42,9 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // Routes
 app.use("/auth", authRouter);
+app.use("/project", projectRouter);
+app.use('/task', taskRouter);
+app.use("/comment", commentRouter);
 
 // Chatbot middleware
 const __filename = fileURLToPath(import.meta.url);
