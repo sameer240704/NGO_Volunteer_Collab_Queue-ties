@@ -13,7 +13,7 @@ const mockSellers = [
   { id: 8, name: 'Veggie Delight', type: 'Restaurant', rating: 4.9, donationType: 'Food', donationAmount: 60000 },
 ];
 
-const Market = () => {
+const   Market = () => {
   const [sellers, setSellers] = useState(mockSellers);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
@@ -181,7 +181,6 @@ const Market = () => {
           <option value="Electronics">Electronics</option>
         </select>
         
-        <Filter className="text-gray-400" size={24} />
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

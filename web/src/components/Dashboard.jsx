@@ -71,6 +71,11 @@ const Dashboard = () => {
               onClick={() => handleSectionClick("overview")}
             />
             <SidebarLink
+              label="Market Place"
+              isActive={activeSection === "marketplace"}
+              onClick={() => handleSectionClick("marketplace")}
+            />
+            <SidebarLink
               label="Community"
               isActive={activeSection === "community"}
               onClick={() => handleSectionClick("community")}
@@ -105,6 +110,7 @@ const Dashboard = () => {
       <div className="flex-1 bg-blue-100 p-10 ">
         <h1 className="text-4xl font-poppins font-semibold text-primary mb-8">
           {activeSection === "overview" && "Dashboard Overview"}
+          {activeSection === "marketplace" && "Market Place"}
           {activeSection === "community" && "Community"}
         </h1>
 
@@ -113,6 +119,7 @@ const Dashboard = () => {
             <Community />
           )}
         </div>
+        {activeSection === "marketplace" && <Market />}
         {activeSection === "projects" && <Projects />}
       </div>
     </div>
