@@ -50,6 +50,7 @@ const posts = [
     comments: 7,
     image: ngo2,
   },
+
 ];
 
 const groups = [
