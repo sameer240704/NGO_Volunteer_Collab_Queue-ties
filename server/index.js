@@ -9,6 +9,7 @@ import authRouter from "./routes/auth.route.js";
 import projectRouter from "./routes/projectRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
+import sellerRouter from "./routes/sellerRoutes.js";
 
 import bodyParser from "body-parser";
 import { SessionsClient } from '@google-cloud/dialogflow';
@@ -45,6 +46,7 @@ app.use("/auth", authRouter);
 app.use("/project", projectRouter);
 app.use('/task', taskRouter);
 app.use("/comment", commentRouter);
+app.use('/seller', sellerRouter);
 
 // Chatbot middleware
 const __filename = fileURLToPath(import.meta.url);
