@@ -48,7 +48,7 @@ const Dashboard = () => {
   }
   , [authUser.userId]);
 
-  console.log(user.user);
+  // console.log(user.user);
   
 
   return (
