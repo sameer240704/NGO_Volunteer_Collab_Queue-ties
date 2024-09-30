@@ -67,8 +67,6 @@ export const getAllStories = async (req, res) => {
             };
         }));
 
-        console.log(stories);
-
         res.status(200).json({
             message: "Stories fetched successfully",
             stories: formattedStories

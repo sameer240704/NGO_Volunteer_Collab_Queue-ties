@@ -19,7 +19,6 @@ const Stories = () => {
   const [selectedStory, setSelectedStory] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const { storiesData, isLoading, error, refetchStories } = useStoriesData();
-  console.log(storiesData);
 
   if (isLoading) {
     return <Loader />;
@@ -95,7 +94,7 @@ const Stories = () => {
   };
 
   return (
-    <ScrollView horizontal style={styles.storiesContainer} className="">
+    <ScrollView horizontal style={styles.storiesContainer} className="h-32">
       <View className="flex flex-row mt-2 gap-x-3 mr-6">
         <TouchableOpacity
           style={styles.uploadButton}
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "#ff8501", // Similar to Instagram's orange ring
+    borderColor: "#007bff",
   },
   userName: {
     fontSize: 12,

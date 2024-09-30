@@ -3,17 +3,15 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
     uploadedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
+        required: true
+    },
+    uploadedByImage: {
+        type: String,
         required: true
     },
     caption: {
         type: String,
-        required: true
-    },
-    mediaType: {
-        type: String,
-        enum: ['image', 'video'],
         required: true
     },
     mediaUrl: {
@@ -24,6 +22,10 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     },
+    likedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+    },
     shareCount: {
         type: Number,
         default: 0
@@ -32,11 +34,7 @@ const postSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'PostComments'
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
 });
 
-const Task = mongoose.model("Post", postSchema);
-export default Task;
+const Post = mongoose.model("Post", postSchema);
+export default Post;
