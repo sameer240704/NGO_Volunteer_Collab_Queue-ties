@@ -157,7 +157,7 @@ const Market = () => {
         <X className="text-red-500 fill-current mr-2 cursor-pointer hover:text-red-600 active:text-red-400  " size={28} onClick={onClose} />
         </div>
         
-        <img src={seller.image} alt={seller.name} className="w-screen h-32 object-cover rounded-md mb-4 mx-auto" />
+        <img src={seller.image} alt={seller.name} className="w-screen object-cover rounded-md mb-4 mx-auto" />
         <p className="text-gray-600 mb-2">{seller.type}</p>
         <div className="flex items-center mb-2">
           <Star className="text-yellow-400 fill-current" size={16} />
@@ -171,8 +171,9 @@ const Market = () => {
         <p className="text-sm mb-2">NGOs: {seller.ngoList.join(', ')}</p>
         <button
           className="mt-4 bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-full w-full"
+          onClick={() => window.open(`https://wa.me/${seller.phone}`)}
         >
-          See Payment Options
+          Contact Seller
         </button>
       </div>
     </div>
@@ -203,10 +204,8 @@ const Market = () => {
     );
   }
 
-  console.log(ngos);
-  
   const NgoCard = ({ ngo, onViewDetails }) => (
-    <div className="border rounded-lg p-4 shadow-md bg-white flex justify-between items-center">
+    <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 flex justify-between items-center">
       <div>
         <h3 className="font-bold font-serif text-lg">{ngo.name}</h3>
         <p className="text-gray-400 text-sm">{ngo.role==='admin'?'NGO': 'Volunteer'}</p>
@@ -219,7 +218,7 @@ const Market = () => {
       <div className='flex flex-col justify-center items-center'>
         <img src={ngo.primaryImage} alt={ngo.name} className="w-auto h-20 object-cover rounded-md" />
         <button
-          className="mt-3 bg-primary hover:bg-blue-500 transition ease-in-out duration-150 text-white px-3 py-1 rounded-full flex items-center text-sm"
+          className="mt-3 bg-primary hover:bg-blue-500 transition ease-in-out duration-150 text-white px-5 py-2 text-md rounded-full flex items-center text-sm"
           onClick={() => onViewDetails(ngo)}
         >
           View Details
@@ -261,7 +260,7 @@ const Market = () => {
         <img src={ngo.primaryImage} alt={ngo.name} className="w-32 h-32 object-cover rounded-md mb-4 mx-auto" />
         <div className=''>
         <a className="text-gray-400 mb-2 text-base font-harmonique no-underline">{ngo.role==='admin' ? 'NGO': 'Volunteer'}</a>
-        <p className="mb-2 text-xl font-harmonique text-gray-800">Email: {ngo.email}</p>
+        <p className="mb-2 text-xl font-harmonique text-gray-800">Email: <a href={`mailto:/${ngo.email  }`}>{ngo.email}</a></p>
         <p className="mb-2 text-xl font-harmonique text-gray-800">Phone: {ngo.phone}</p>
         <p className="mb-2 text-xl font-harmonique text-gray-800 text-wrap">Address: {ngo.address1}, {ngo.address2}</p>
         <p className="mb-2 text-xl font-harmonique text-gray-800">Location: {ngo.city}, {ngo.state}</p>
