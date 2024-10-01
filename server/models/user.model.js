@@ -56,7 +56,13 @@ const userSchema = new Schema({
                 return this.role === 'admin';
             }
         }
-    ]
+    ],
+    skills: {
+        type: [String],
+        required: function () {
+            return this.role === 'volunteer';
+        }
+    }
 });
 
 const User = mongoose.model("User", userSchema);

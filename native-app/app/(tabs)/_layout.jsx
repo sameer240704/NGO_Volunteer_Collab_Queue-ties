@@ -122,15 +122,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="weather"
+        name="events"
         options={{
-          title: t("weather"),
+          title: t("events"),
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              icon={icons.weather}
+              icon={icons.events}
               color={color}
-              name={t("weather")}
+              name={t("events")}
               focused={focused}
             />
           ),

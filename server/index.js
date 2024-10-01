@@ -11,7 +11,6 @@ import taskRouter from "./routes/taskRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
 import sellerRouter from "./routes/sellerRoutes.js";
 import communityRouter from "./routes/community.route.js";
-import storyRouter from "./routes/storyRoutes.js"; // Import the new stories router
 
 
 import bodyParser from "body-parser";
@@ -51,7 +50,6 @@ app.use('/task', taskRouter);
 app.use("/comment", commentRouter);
 app.use('/seller', sellerRouter);
 app.use("/community", communityRouter);
-app.use("/stories", storyRouter); // Add this line to handle stories routes
 
 // Chatbot middleware
 const __filename = fileURLToPath(import.meta.url);

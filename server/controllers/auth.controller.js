@@ -78,7 +78,7 @@ export const registerUser = async (req, res) => {
         const newUser = new User(userData);
         await newUser.save();
 
-        const qrData = JSON.stringify({ phone, hashedPassword });
+        const qrData = JSON.stringify({ email, hashedPassword });
         const qrCode = await QRCode.toDataURL(qrData);
 
         const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
@@ -184,7 +184,8 @@ export const getUserById = async (req, res) => {
                 city: user.city,
                 state: user.state,
                 primaryImage: user.primaryImage,
-                ngoImages: user.ngoImages
+                ngoImages: user.ngoImages,
+                skills: user.skills
             }
         });
     } catch (error) {
@@ -243,5 +244,15 @@ export const getPrimaryImageByUserId = async (req, res) => {
         res.status(200).json({ primaryImage: user.primaryImage });
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+};
+
+export const getAllVolunteers = async (req, res) => {
+    try {
+        const volunteers = await User.find({ role: 'volunteer' });
+
+        res.status(200).json(volunteers);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving volunteers', error: error.message });
     }
 };

@@ -10,7 +10,7 @@ const ProjectDetails = ({ projectId }) => {
     const [tasks, setTasks] = useState([]);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [volunteers, setVolunteers] = useState([]);
-    const steps = ["Planning", "Before Event", "Event Day", "Post Event"];
+    const steps = ['Planning', 'Before Event', 'On Event Day', 'After Event'];
     const [currentStep, setCurrentStep] = useState(1);
     const [complete, setComplete] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -24,6 +24,32 @@ const ProjectDetails = ({ projectId }) => {
     const closeTaskModal = () => {
         setSelectedTaskId(null);
     };
+
+    useEffect(() => {
+        // Update project status whenever currentStep changes
+        const updateProjectStage = async () => {
+            try {
+                const response = await fetch(`http://localhost:4224/project/${projectId}/status`, {
+                    method: 'POST', // Changed from PUT to POST
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: steps[currentStep - 1] }),
+                });
+        
+                if (!response.ok) throw new Error('Failed to update project status');
+                const data = await response.json();
+                console.log(data.message); // Log success message
+            } catch (error) {
+                console.error('Error updating project status:', error);
+            }
+        };
+
+        // Only call updateProjectStage if the project is loaded and the step changes
+        if (project) {
+            updateProjectStage();
+        }
+    }, [currentStep, projectId, project]);
 
     useEffect(() => {
         const fetchProjectDetails = async () => {
@@ -87,11 +113,13 @@ const ProjectDetails = ({ projectId }) => {
         };
 
         fetchProjectDetails();
-    }, [projectId, showModal]);
+    }, [projectId, showModal, currentStep]);
 
     if (!project) {
         return <div className="text-center">Loading...</div>;
     }
+
+    console.log(project);
 
     const getAssigneeName = (assigneeId) => {
         for (let i = 0; i < volunteers.length; i++){
@@ -191,7 +219,7 @@ const ProjectDetails = ({ projectId }) => {
 
             {/* Task Modal */}
             {showModal && (
-                <CreateTaskModal projectId={projectId} volunteers={volunteers} onClose={() => setShowModal(false)} />
+                <CreateTaskModal projectId={projectId} volunteers={volunteers} stage={project.status} onClose={() => setShowModal(false)} />
             )}
 
             <div className="grid grid-cols-3 gap-6 mt-2">
