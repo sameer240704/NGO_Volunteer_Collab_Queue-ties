@@ -169,12 +169,17 @@ const Market = () => {
         <p className="text-sm mb-2">Email: {seller.email}</p>
         <p className="text-sm mb-2">Products: {seller.products.join(', ')}</p>
         <p className="text-sm mb-2">NGOs: {seller.ngoList.join(', ')}</p>
+        
+        <div className='flex gap-2 '>
+          
         <button
-          className="mt-4 bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-full w-full"
+          className="mt-4 bg-primary hover:bg-blue-200 hover:text-black text-white px-4 py-2 rounded-full w-full"
           onClick={() => window.open(`https://wa.me/${seller.phone}`)}
-        >
+          >
           Contact Seller
         </button>
+        <button className="mt-4 bg-blue-200 hover:bg-primary text-black hover:text-white px-4 py-2 rounded-full w-full" onClick={() => window.open(`https://instagram.com/${seller.phone}`)} >Anonymous Donation</button>
+          </div>
       </div>
     </div>
   );
