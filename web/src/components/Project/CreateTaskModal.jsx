@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateTaskModal = ({ projectId, onClose, volunteers }) => {
+const CreateTaskModal = ({ projectId, onClose, volunteers, stage }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const CreateTaskModal = ({ projectId, onClose, volunteers }) => {
             const response = await fetch('http://localhost:4224/task/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, description, projectId, assignee }),
+                body: JSON.stringify({ title, description, projectId, assignee, stage }),
             });
 
             if (response.ok) {

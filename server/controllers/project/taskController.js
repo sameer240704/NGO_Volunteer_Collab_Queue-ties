@@ -24,7 +24,7 @@ import Project from '../../models/project/projectModel.js';
 
 export const createTask = async (req, res) => {
     try {
-        const { title, description, projectId, assignee } = req.body;
+        const { title, description, projectId, assignee, stage } = req.body;
 
         // Find the project by ID
         const project = await Project.findById(projectId);
@@ -37,7 +37,8 @@ export const createTask = async (req, res) => {
             title,
             description,
             project: projectId,
-            assignee: assignee || null // Optional: null if no assignee is provided
+            assignee: assignee || null, // Optional: null if no assignee is provided
+            stage: stage
         });
 
         // Push the new task to the project's tasks array
