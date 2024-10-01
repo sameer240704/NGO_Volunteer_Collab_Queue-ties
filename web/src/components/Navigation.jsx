@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/logo.png';
+import Logo from '../assets/images/logo_dark.png';
 
 const Navigation = () => {
   return (
@@ -9,7 +9,7 @@ const Navigation = () => {
         {/* Logo Section */}
         <div className="flex items-center">
           <img src={Logo} alt="Logo" className="w-20 -mr-3" />
-          <span className="text-3xl font-mono font-semibold text-primary pr-4">ForACause</span>
+          <span className="text-2xl font-harmonique font-semibold text-black pr-4 ml-5">Samarpit</span>
         </div>
 
         {/* Navigation Links */}

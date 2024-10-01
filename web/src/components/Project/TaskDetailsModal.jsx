@@ -80,22 +80,22 @@ const TaskDetailsModal = ({ taskId, onClose }) => {
 
     return (
         <div className="z-[99999999] fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-1/2 relative">
+            <div className="bg-white bg-opacity-80 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg p-6 w-1/2 relative">
                 <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">X</button>
                 
                 {/* Task Details */}
                 <h2 className="text-2xl w-full text-center font-bold mb-4 font-harmonique">📝 {task.title}</h2>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <p className="text-sm text-gray-600 mb-2">
+                        <p className="text-lg text-gray-600 mb-2">
                         Assigned to: {task.assignee?.name || 'Unassigned'}
                     </p>
-                    <p className={`text-sm font-semibold mb-4 ${getStatusColor(task.status)}`}>
+                    <p className={`text-lg font-semibold mb-4 ${getStatusColor(task.status)}`}>
                         Status: {task.status}
                     </p>
                     <div className="text-gray-700 mb-4">
-                        <h4 className="font-semibold text-sm mb-2">Description:</h4>
-                        <p className="text-sm">{task.description}</p>
+                        <h4 className="font-semibold text-lg mb-2">Description:</h4>
+                        <p className="text-lg">{task.description}</p>
                     </div>
                         <h3 className="font-semibold font-harmonique text-lg mb-2 mt-8 text-center">Comments</h3>
                         <div className="mb-4 w-full text-center">
@@ -143,13 +143,13 @@ const TaskDetailsModal = ({ taskId, onClose }) => {
                                             />
                                         )}
                                         {/* Display comment content */}
-                                        <p className="text-sm font-harmonique">
+                                        <p className="text-lg font-harmonique">
                                             {/* Assuming you want to show the comment content */}
                                             <p>{comment.content}</p>
                                         </p>
                                     </div>
                                     {/* Optionally show createdAt */}
-                                    <p className="text-xs mt-1 text-gray-500 font-harmonique">{new Date(comment.createdAt).toLocaleString()}</p>
+                                    <p className="text-sm mt-1 text-gray-500 font-harmonique">{new Date(comment.createdAt).toLocaleString()}</p>
                                 </div>
                             ))
                         ) : (

@@ -50,39 +50,38 @@ const Projects = () => {
   };
 
   return (
-    <div className="p-4 ">
+    <div className="">
       {/* Conditionally render project details or project list */}
       {selectedProject ? (
         <ProjectDetails projectId={selectedProject} key={selectedProject} onBack={() => setSelectedProject(null)} />
       ) : (
         <>
-          <h1 className="text-2xl font-semibold mb-4">All Projects</h1>
-          <table className="min-w-full border-separate border-spacing-2">
+          <table className="min-w-full border-separate border-spacing-2 text-xl font-harmonique">
   <thead>
     <tr className='bg-white'>
-      <th className="py-3 pl-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg">Sr. No.</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Admin</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Join</th>
+      <th className="py-3 pl-4 border-b-2 border-gray-300 font-medium text-left rounded-lg">Sr. No.</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Admin</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Join</th>
     </tr>
   </thead>
   <tbody>
     {projects.map((project, index) => (
       <tr key={project._id} className="border-t hover:bg-gray-100">
-        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg text-center">
+        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
           {index + 1}
         </td>
         <td
-          className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg cursor-pointer"
+          className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50"
           onClick={() => handleProjectClick(project)}
         >
-          <span className="text-black-500 font-semibold" style={{ letterSpacing: "1px" }}>{project.title}</span>
+          <span className="text-black-500 font-medium" style={{ letterSpacing: "1px" }}>{project.title}</span>
         </td>
-        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg flex gap-2 items-center">
+        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
           <img src={project.createdBy.primaryImage} className='w-9 h-9 rounded-[50%]' />
           {project.createdBy.name}
         </td>
-        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg text-center">
+        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50r">
           {isProjectJoined(project._id) ? (
             <button
               className="flex items-center gap-2 text-green-500 font-bold cursor-not-allowed"
@@ -106,7 +105,7 @@ const Projects = () => {
           {/* <table className="min-w-full border-separate border-spacing-2">
             <thead>
               <tr className='bg-white'>
-                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
                 <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Admin</th>
                 <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Join</th>
               </tr>
