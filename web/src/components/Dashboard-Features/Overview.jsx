@@ -2,70 +2,74 @@ import React from 'react';
 import { Chart } from 'react-google-charts';
 import { Link } from 'react-router-dom';
 import ngo1 from "../../assets/images/ngo1.png";
+import ngo2 from "../../assets/images/ngo2.png";
 import video1 from '../../assets/images/video1.mp4';
 
 const DashboardOverview = () => {
   // Sample data for different chart types
   const barData = [
-    ["Data", "Value"],
-    ["Data 1", 400],
-    ["Data 2", 300],
-    ["Data 3", 500],
+    ["Month", "Funds"],
+    ["Jan", 4000],
+    ["Feb", 3000],
+    ["Mar", 5500],
+    ["Apr", 2800],
+    ["June", 4300],
   ];
 
   const lineData = [
-    ["Month", "Value 1", "Value 2"],
+    ["Month", "Donation Drive", "Workshops"],
     ["Jan", 240, 100],
     ["Feb", 180, 200],
-    ["Mar", 280, 150],
-    ["Apr", 220, 250],
+    ["Mar", 280, 200],
+    ["Apr", 200, 250],
   ];
 
   const pieData = [
-    ["Task", "Hours per Day"],
-    ["Work", 8],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 3],
-    ["Sleep", 9],
+    ["Volunteers", "Total Contribution"],
+    ["Parth", 8],
+    ["Aditi", 6],
+    ["Sameer", 5],
+    ["Dnyanesh", 3],
   ];
 
   const areaData = [
-    ["Year", "Sales", "Expenses"],
-    ["2017", 1000, 400],
-    ["2018", 1170, 460],
-    ["2019", 660, 1120],
-    ["2020", 1030, 540],
+    ["Year", "Total Growth", "Total Expenses"],
+    ["2017", 100, 40],
+    ["2018", 70, 60],
+    ["2019", 60, 20],
+    ["2020", 30, 50],
   ];
 
   const barOptions = {
     chartArea: { width: "70%" },
     hAxis: {
-      title: "Total Value",
+      title: "Funds Raised",
       minValue: 0,
     },
     vAxis: {
-      title: "Data",
+      title: "Month",
     },
-    backgroundColor: 'transparent', // Set graph background transparent
+    backgroundColor: 'transparent',
+    title: 'Fund Raiser' // Set graph background transparent
   };
-
+  
   const lineOptions = {
+    title: 'Drive Analysis', // Set graph background transparent
     curveType: "function",
     legend: { position: "bottom" },
     backgroundColor: 'transparent', // Set graph background transparent
   };
 
   const pieOptions = {
-    title: "Daily Activities",
+    title: "Volunteer Contribution",
     pieHole: 0.4,
     backgroundColor: 'transparent', // Set graph background transparent
   };
 
   const areaOptions = {
-    title: "Company Performance",
+    title: "NGO Performance",
     hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
-    vAxis: { minValue: 0 },
+    vAxis: { title: 'Percentage(100%)', minValue: 0 },
     chartArea: { width: '70%', height: '70%' },
     backgroundColor: 'transparent', // Set graph background transparent
   };
@@ -107,6 +111,7 @@ const DashboardOverview = () => {
               height="100%"
               data={pieData}
               options={pieOptions}
+              style={{fontSize: '2rem'}}
             />
           </div>
 
@@ -135,16 +140,19 @@ const DashboardOverview = () => {
       <div className="flex mt-3">
         {/* Top Events */}
         <div className="flex-1">
-          <h2 className="text-2xl font-medium my-3">Top Events</h2>
+          <h2 className="text-2xl font-medium my-3">Upcoming Events</h2>
           <div className="flex gap-4">
             {/* Example Event */}
-            {Array(2).fill(0).map((_, index) => (
-              <div key={index} className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-[22vw] h-[16vh]">
-                <h3 className="text-lg font-semibold">Event Title {index + 1}</h3>
-                <p className="text-gray-600">Event details and description.</p>
+              <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-[22vw] h-[16vh]">
+                <h3 className="text-lg font-semibold">Charity Marathon</h3>
+                <p className="text-gray-600">A walkathon event for charity so that money earned will be used for a noble cause.</p>
                 <Link to="/event-details" className="text-blue-500 hover:underline">View Details</Link>
               </div>
-            ))}
+              <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-[22vw] h-[16vh]">
+                <h3 className="text-lg font-semibold">Volunteer Workshops</h3>
+                <p className="text-gray-600">A workshops for volunteer for detailed knowledge of how a community works.</p>
+                <Link to="/event-details" className="text-blue-500 hover:underline">View Details</Link>
+              </div>
           </div>
         </div>
 
@@ -153,13 +161,16 @@ const DashboardOverview = () => {
           <h2 className="text-2xl font-medium my-3">Top Volunteer Profiles</h2>
           <div className="flex gap-4">
             {/* Example Volunteer Profile */}
-            {Array(2).fill(0).map((_, index) => (
-              <div key={index} className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-72">
-                <img src={ngo1} alt={`Volunteer ${index + 1}`} className="rounded-full w-16 h-16" />
-                <h3 className="text-lg font-semibold">Volunteer {index + 1}</h3>
-                <p className="text-gray-600">Short Bio or Description</p>
+              <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-72">
+                <img src={ngo1} alt='Volunteer' className="rounded-full w-16 h-16" />
+                <h3 className="text-lg font-semibold"> #1 Aditi Ambasta </h3>
+                <p className="text-gray-600">Rookie volunteer who is enthusiast for donation</p>
               </div>
-            ))}
+              <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 w-72">
+                <img src={ngo2} alt='Volunteer' className="rounded-full w-16 h-16" />
+                <h3 className="text-lg font-semibold">#2 Dnyanesh Sawant </h3>
+                <p className="text-gray-600 text-wrap">Experienced Volunteer who is well known by people.</p>
+              </div>
           </div>
         </div>
       </div>

@@ -27,8 +27,8 @@ const ProfileDetails = ({ user, onLogout }) => {
         <div className="">
           {/* Profile card */}
           <div className=" overflow-hidden sm:rounded-lg font-harmonique">
-            <div className="px-4 py-5 sm:px-6 flex justify-between items-center bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50">
-              <div>
+            <div className="w-1/4 px-4 py-5 sm:px-6 flex justify-start flex-col-reverse items-center p-4 rounded-lg">
+              <div className='flex flex-col items-center justify-center mt-2'>
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">
                   {user.user.name}
                 </h3>
@@ -41,15 +41,15 @@ const ProfileDetails = ({ user, onLogout }) => {
                 src={user.user.primaryImage}
                 alt={user.user.name}
               />
-            </div>
-            <div className=" mt-5 px-4 py-5 sm:px-6 bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50">
-              <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+          </div>
+          <div className=" mt-5 px-4 py-5 sm:px-6 bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div className="sm:col-span-1">
-                  <dt className="text-xl font-medium text-gray-500 flex items-center">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Email
-                  </dt>
-                  <dd className="mt-1 text-lg text-gray-900">{user.user.email}</dd>
+                    <dt className="text-xl font-medium text-gray-500 flex items-center">
+                        <Mail className="w-5 h-5 mr-2" />
+                        Email
+                    </dt>
+                    <dd className="mt-1 text-lg text-gray-900">{user.user.email}</dd>
                 </div>
                 <div className="sm:col-span-1">
                   <dt className="text-xl font-medium text-gray-500 flex items-center">
@@ -67,11 +67,11 @@ const ProfileDetails = ({ user, onLogout }) => {
                 </div>
                 {user.user.role=== 'admin' && (
                   <div className="sm:col-span-2">
-                    <dt className="text-sm font-medium text-gray-500 flex items-center">
+                    <dt className="text-xl font-medium text-gray-500 flex items-center">
                       <Building className="w-5 h-5 mr-2" />
                       Address
                     </dt>
-                    <dd className="mt-1 text-sm text-gray-900">
+                    <dd className="mt-1 text-lg text-gray-900">
                       <p>{user.user.address1}</p>
                       {user.user.address2 && <p>{user.user.address2}</p>}
                     </dd>
@@ -79,7 +79,7 @@ const ProfileDetails = ({ user, onLogout }) => {
                 )}
                 {user.user.role === 'admin' && user.user.ngoImages && user.user.ngoImages.length > 0 && (
                   <div className="sm:col-span-2">
-                    <dt className="text-sm font-medium text-gray-500 flex items-center mb-2">
+                    <dt className="text-xl font-medium text-gray-500 flex items-center mb-2">
                       <Image className="w-5 h-5 mr-2" />
                       NGO Images
                     </dt>
