@@ -38,10 +38,10 @@ const Landing = () => {
 
   // Update farm progress
   useEffect(() => {
-    if (farm < 687) {
+    if (farm < 47) {
       const interval = setInterval(() => {
         setFarm((prev) => prev + 1);
-      }, 1);
+      }, 10);
       return () => clearInterval(interval);
     }
   }, [farm]);
@@ -99,7 +99,7 @@ const Landing = () => {
             <div className="bg-[#cddff6] p-6 rounded-full custom-shape1 h-[350px]">
               <h3 className="text-6xl font-semibold mb-2 text-primary] text-left">{percent}%</h3>
               <p className="text-lg text-left">
-              A centralized platform empowering NGOs to efficiently manage volunteers, resources, fundraising, and project visibility, ultimately enhancing their ability to drive social change.
+              A centralized platform empowering NGOs to efficiently manage volunteers, resources, fundraising, and project visibility.
               </p>
               <Link to="/login" className="mt-4 text-xl bg-accent hover:bg-blue-500 text-blue-900 px-8 py-3 rounded-full flex items-center">
                 Explore more <ArrowRight size={28} className="ml-6 rounded-full" />
@@ -110,7 +110,7 @@ const Landing = () => {
                 <Shield size={32} />
               </div>
               <div>
-                <p className="font-semibold">+{farm} farms were protected</p>
+                <p className="font-semibold">+{farm} events done this year</p>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ const Landing = () => {
             <img src={ngo1} alt="Farmer" className="w-full h-full object-cover" />
             <div className={`absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4 transition-all duration-300 ease-in-out ${isHovering ? 'translate-y-0' : 'translate-y-full pointer-events-none'}`}>
               <p className="text-lg">
-                Insuring a climate-resilient future for farmers by providing insurance & technology to protect and improve their livelihoods.
+              A centralized platform empowering NGOs to efficiently manage volunteers, resources, fundraising, and project visibility.
               </p>
             </div>
           </div>
@@ -151,7 +151,7 @@ const Landing = () => {
                 <Shield size={32} />
               </div>
               <div>
-                <p className="font-semibold">+{farm} farms were protected</p>
+                <p className="font-semibold">+{farm} events done this year</p>
               </div>
             </div>
           </div>
