@@ -122,21 +122,6 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="events"
-        options={{
-          title: t("events"),
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.events}
-              color={color}
-              name={t("events")}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="community"
         options={{
           title: t("community"),
