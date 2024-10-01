@@ -28,6 +28,10 @@ const projectSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' // Users with role 'volunteer' can join
     }],
+    skills: {
+        type: [String], // Array of strings representing skills
+        default: []
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Admin who created the project
