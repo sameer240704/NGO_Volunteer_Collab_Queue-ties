@@ -20,6 +20,7 @@ import deleteBtn from "../assets/icons/delete.png"
 import gallery from "../assets/icons/gallery.png";
 import community from "../assets/icons/community.png";
 import add from "../assets/icons/add.png";
+import events from "../assets/icons/events.png";
 
 export default {
   play,
@@ -43,5 +44,6 @@ export default {
   gallery,
   deleteBtn,
   community,
-  add
+  add,
+  events
 };

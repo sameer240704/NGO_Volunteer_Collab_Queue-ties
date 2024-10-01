@@ -20,6 +20,8 @@ const Stories = () => {
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const { storiesData, isLoading, error, refetchStories } = useStoriesData();
 
+  console.log(storiesData);
+
   if (isLoading) {
     return <Loader />;
   }
