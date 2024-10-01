@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Logo from '../assets/images/logo_light.png';
-import Community from '../components/Dashboard-Features/Community';
-import Market from './Dashboard-Features/Market';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useAuthContext } from '../context/AuthContext';
-import Projects from './Project/Projects';
-import ProfileDetails from './Dashboard-Features/ProfileDetails';
-import Overview from './Dashboard-Features/Overview';
-import FeedbackModal from './FeedbackModal';
+import React, { useEffect, useState } from "react";
+import Logo from "../assets/images/logo_light.png";
+import Community from "../components/Dashboard-Features/Community";
+import Market from "./Dashboard-Features/Market";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
+import Projects from "./Project/Projects";
+import ProfileDetails from "./Dashboard-Features/ProfileDetails";
+import Overview from "./Dashboard-Features/Overview";
+import FeedbackModal from "./FeedbackModal";
+import Feedback from "./Dashboard-Features/Feedback";
 
 const Dashboard = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeSection, setActiveSection] = useState("overview");
   const [user, setUser] = useState({});
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:4224/auth/logout');
+      const response = await axios.post("http://localhost:4224/auth/logout");
       const data = response.data;
       if (data.error) throw new Error(data.error);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +36,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:4224/auth/getUser/${authUser.userId}`);
+        const response = await axios.get(
+          `http://localhost:4224/auth/getUser/${authUser.userId}`
+        );
         const data = response.data;
         setUser(data);
         if (data.error) throw new Error(data.error);
@@ -45,11 +48,13 @@ const Dashboard = () => {
     };
 
     fetchUser();
-  }
-, [authUser.userId]);
+  }, [authUser.userId]);
 
   return (
-    <div className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300" style={{ zIndex: "-99999" }}>
+    <div
+      className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300"
+      style={{ zIndex: "-99999" }}
+    >
       {/* Sidebar */}
       <div className="bg-primary fixed text-white w-84 py-8 pl-8 flex flex-col justify-between h-screen">
         <div>
@@ -81,30 +86,29 @@ const Dashboard = () => {
               isActive={activeSection === "projects"}
               onClick={() => handleSectionClick("projects")}
             />
+            <SidebarLink
+              label="Feedback"
+              isActive={activeSection === "feedback"}
+              onClick={() => window.open("http://localhost:8501", "_blank")}
+            />
           </nav>
         </div>
 
         {/* Profile and Logout Section */}
         <div className="mt-auto">
-
-        <div className="flex items-center justify-between">
-        <button
-  onClick={() => setIsFeedbackModalOpen(true)}
-  className="feedback-btn bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-14"
->
-  Feedback
-</button>
-          </div>
-
-          {/* Feedback modal */}
-          {isFeedbackModalOpen && (
-  <FeedbackModal onClose={() => setIsFeedbackModalOpen(false)} authUser={authUser} />
-)}
-
-          <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8" onClick={() => handleSectionClick("profile")}>
-            <img src={user.user?.primaryImage} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
+          <div
+            className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8"
+            onClick={() => handleSectionClick("profile")}
+          >
+            <img
+              src={user.user?.primaryImage}
+              alt="Profile"
+              className="w-12 h-12 rounded-full object-cover"
+            />
             <div>
-              <h3 className="text-lg font-medium font-harmonique">{user.user?.name}</h3>
+              <h3 className="text-lg font-medium font-harmonique">
+                {user.user?.name}
+              </h3>
             </div>
           </div>
 
@@ -125,15 +129,19 @@ const Dashboard = () => {
           {activeSection === "community" && "Community"}
           {activeSection === "projects" && "Planner"}
           {activeSection === "profile" && "Profile Details"}
+          {activeSection === "feedback" && "Feedback"}
         </h1>
 
         <div>
           {activeSection === "overview" && <Overview />}
           {activeSection === "community" && <Community />}
+          {activeSection === "feedback" && <Feedback />}
         </div>
         {activeSection === "marketplace" && <Market />}
         {activeSection === "projects" && <Projects />}
-        {activeSection === "profile" && <ProfileDetails user={user} onLogout={handleLogout} />}
+        {activeSection === "profile" && (
+          <ProfileDetails user={user} onLogout={handleLogout} />
+        )}
       </div>
     </div>
   );
@@ -145,7 +153,7 @@ const SidebarLink = ({ label, isActive, onClick }) => (
     className={`cursor-pointer flex items-center font-medium text-xl py-4 px-5 transition-colors duration-200
       ${isActive ? "bg-[#cde3fe] text-blue-900" : "hover:bg-accent"}
     `}
-    style={isActive ? { borderRadius: "40px 0px 0px 40px" } : {}}
+    style={{ borderRadius: "40px 0px 0px 40px" }}
   >
     {label}
   </div>
