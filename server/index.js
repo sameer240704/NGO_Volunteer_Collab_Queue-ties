@@ -13,7 +13,6 @@ import sellerRouter from "./routes/sellerRoutes.js";
 import communityRouter from "./routes/community.route.js";
 import feedbackRoutes from './routes/feedbackRoutes.js';
 
-
 import bodyParser from "body-parser";
 import { SessionsClient } from '@google-cloud/dialogflow';
 import { fileURLToPath } from 'url';

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import "./stepper.css";
 import { TiTick } from "react-icons/ti";
-import { useAuthContext } from '../../context/AuthContext.jsx'; // Importing auth context
+import { useAuthContext } from '../../context/AuthContext.jsx';
 import CreateTaskModal from './CreateTaskModal';
-import TaskDetailsModal from './TaskDetailsModal'; 
+import TaskDetailsModal from './TaskDetailsModal';
+import "./stepper.css";
 
 const ProjectDetails = ({ projectId }) => {
     const [project, setProject] = useState(null);
@@ -13,9 +13,8 @@ const ProjectDetails = ({ projectId }) => {
     const steps = ['Planning', 'Before Event', 'On Event Day', 'After Event'];
     const [currentStep, setCurrentStep] = useState(1);
     const [complete, setComplete] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const { authUser } = useAuthContext(); // Access user role from context
-    const [showModal, setShowModal] = useState(false); 
+    const { authUser } = useAuthContext();
+    const [showModal, setShowModal] = useState(false);
 
     const openTaskModal = (taskId) => {
         setSelectedTaskId(taskId);
@@ -26,11 +25,10 @@ const ProjectDetails = ({ projectId }) => {
     };
 
     useEffect(() => {
-        // Update project status whenever currentStep changes
         const updateProjectStage = async () => {
             try {
                 const response = await fetch(`http://localhost:4224/project/${projectId}/status`, {
-                    method: 'POST', // Changed from PUT to POST
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -39,17 +37,16 @@ const ProjectDetails = ({ projectId }) => {
         
                 if (!response.ok) throw new Error('Failed to update project status');
                 const data = await response.json();
-                console.log(data.message); // Log success message
+                console.log(data.message);
             } catch (error) {
                 console.error('Error updating project status:', error);
             }
         };
 
-        // Only call updateProjectStage if the project is loaded and the step changes
         if (project) {
             updateProjectStage();
         }
-    }, [currentStep, projectId, project]);
+    }, [currentStep, projectId, project, steps]);
 
     useEffect(() => {
         const fetchProjectDetails = async () => {
@@ -57,20 +54,8 @@ const ProjectDetails = ({ projectId }) => {
                 const response = await fetch(`http://localhost:4224/project/${projectId}`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
-                if(data.project.status == "Planning"){
-                    setProgress(25);
-                    setCurrentStep(1);
-                } else if(data.project.status == "Before Event") {
-                    setProgress(50);
-                    setCurrentStep(2);
-                } else if(data.project.status == "On Event Day") {
-                    setProgress(75);
-                    setCurrentStep(3);
-                } else {
-                    setCurrentStep(4);
-                    setProgress(100);
-                }
                 setProject(data.project);
+                setCurrentStep(steps.indexOf(data.project.status) + 1);
                 await fetchTasks(data.project._id);
                 await fetchVolunteers(data.project._id);
             } catch (error) {
@@ -89,206 +74,128 @@ const ProjectDetails = ({ projectId }) => {
             }
         };
 
-        // const fetchVolunteers = async (projectId) => {
-        //     try {
-        //         const response = await fetch(`http://localhost:4224/project/${projectId}/volunteers`);
-        //         if (!response.ok) throw new Error('Failed to fetch volunteers');
-        //         const volunteersData = await response.json();
-        //         setVolunteers(volunteersData);
-        //     } catch (error) {
-        //         console.error('Error fetching volunteers:', error);
-        //     }
-        // };
-
         const fetchVolunteers = async (projectId) => {
             try {
                 const response = await fetch(`http://localhost:4224/project/${projectId}/volunteers`);
                 if (!response.ok) throw new Error('Failed to fetch volunteers');
                 const volunteersData = await response.json();
-                setVolunteers(volunteersData); // This will now be an array of objects with id and name
-                console.log(volunteers);
+                setVolunteers(volunteersData);
             } catch (error) {
                 console.error('Error fetching volunteers:', error);
             }
         };
 
         fetchProjectDetails();
-    }, [projectId, showModal, currentStep]);
-
-    if (!project) {
-        return <div className="text-center">Loading...</div>;
-    }
-
-    console.log(project);
+    }, [projectId, showModal, steps]);
 
     const getAssigneeName = (assigneeId) => {
-        for (let i = 0; i < volunteers.length; i++){
-            if(volunteers[i]._id == assigneeId)return volunteers[i].name;
-        }
-        return "Unassigned";
-        // const volunteer = volunteers.find(vol => vol._id === assigneeId);
-        // return volunteer ? volunteer.name : 'Unassigned';
+        const volunteer = volunteers.find(vol => vol._id === assigneeId);
+        return volunteer ? volunteer.name : 'Unassigned';
     };
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'To Do':
-                return 'text-blue-500'; // Blue for 'To Do'
-            case 'In Progress':
-                return 'text-yellow-500'; // Yellow for 'In Progress'
-            case 'Done':
-                return 'text-green-500'; // Green for 'Done'
-            default:
-                return 'text-gray-500';  // Default color for unknown status
+            case 'To Do': return 'bg-blue-100 text-blue-800';
+            case 'In Progress': return 'bg-yellow-100 text-yellow-800';
+            case 'Done': return 'bg-green-100 text-green-800';
+            default: return 'bg-gray-100 text-gray-800';
         }
     };
 
-    return (
-        <div className='mt-0'>
-            <div className='flex flex-col items-center justify-center gap-4'>
-                <h1 className="text-4xl font-bold">{project.title}</h1>
-                <p className="mt-2 text-lg text-gray-600">{project.description}</p>
-                <div class="w-[40%] bg-gray-200 rounded-full h-[20px] dark:bg-gray-700">
-                    <div class="bg-blue-600 h-[20px] rounded-full" style={{width: `${progress}%`}}></div>
-                </div>
+    const TaskColumn = ({ title, tasks }) => (
+        <div className="flex-1 min-w-[300px] p-4 border-r border-gray-200 last:border-r-0">
+            <h2 className="font-semibold text-lg mb-4">{title}</h2>
+            <div className="space-y-4">
+                {tasks.map(task => (
+                    <div key={task._id} 
+                        className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg shadow-blue-500/50 p-4 cursor-pointer hover:shadow-md transition-shadow"
+                        onClick={() => openTaskModal(task._id)}>
+                        <h3 className="font-semibold">{task.title}</h3>
+                        <p className="text-sm text-gray-600">Assigned to: {getAssigneeName(task.assignee)}</p>
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full mt-2 inline-block ${getStatusColor(task.status)}`}>
+                            {task.status}
+                        </span>
+                    </div>
+                ))}
             </div>
+        </div>
+    );
+
+    return (
+        <div className="flex flex-col h-screen ">
+            <div className="">
+                <h1 className="text-3xl font-harmonique font-bold">{project?.title}</h1>
+                <p className="mt-2 text-gray-600">{project?.description}</p>
+            </div>
+
+            {authUser?.role === 'admin' && (
+                <div className=" flex justify-end gap-5 items-center -mt-10">
+                    <button
+                        className="text-lg px-4 py-2 bg-accent text-white rounded-md shadow-lg transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        onClick={() => {
+                            currentStep === steps.length ? setComplete(true) : setCurrentStep(prev => prev + 1);
+                        }}
+                    >
+                        {currentStep === steps.length ? "Finish" : "Next Stage"}
+                    </button>
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="px-4 py-2 text-lg bg-green-500 text-white rounded-md shadow-lg transition duration-200 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
+                    >
+                        Add Task+
+                    </button>
+                </div>
+            )}
 
             <div className="mb-6 mt-6">
                 <div className="flex justify-between">
-                    {steps?.map((step, i) => (
+                    {steps.map((step, i) => (
                         <div
                             key={i}
-                            className={`step-item ${currentStep === i + 1 && "active"} ${(i + 1 < currentStep || complete) && "complete"
-                                } `}
+                            className={`step-item ${currentStep === i + 1 && "active"} ${
+                                (i + 1 < currentStep || complete) && "complete"
+                            }`}
                         >
                             <div className="step">
-                                {i + 1 < currentStep || complete ? <TiTick size={24} /> : i + 1}
+                                {i + 1 < currentStep || complete ? (
+                                    <TiTick size={24} />
+                                ) : (
+                                    i + 1
+                                )}
                             </div>
                             <p className="text-gray-500">{step}</p>
                         </div>
                     ))}
                 </div>
-                {/* {authUser?.role === 'admin' && !complete && (
-                    <button
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 ml-[47%]"
-                        onClick={() => {
-                            currentStep === steps.length
-                                ? setComplete(true)
-                                : setCurrentStep((prev) => prev + 1);
-                        }}
-                    >
-                        {(currentStep === steps.length) ? "Finish" : "Next"}
-                    </button>
-                )} */}
-                {authUser?.role === 'admin' && !complete && (
-                    <div className="flex justify-center items-center gap-4 mt-4">
-                        {/* Next Button */}
-                        <button
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-200 text-[18px] hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 font-semibold"
-                            onClick={() => {
-                                currentStep === steps.length
-                                    ? setComplete(true)
-                                    : setCurrentStep((prev) => prev + 1);
-                            }}
-                        >
-                            {currentStep === steps.length ? "Finish" : "Next"}
-                        </button>
-
-                        {/* Add Ticket Button */}
-                        <button
-                            onClick={() => setShowModal(true)}
-                            className="flex items-center bg-green-500 text-white px-4 py-2 text-[18px] rounded-lg font-semibold hover:bg-green-600 transition duration-200"
-                        >
-                            Add Ticket
-                        </button>
-                    </div>
-                )}
             </div>
 
-            {/* Add Ticket Button for Admins
-            {authUser?.role === 'admin' && (
-                <div className="text-right mt-4">
-                    <button 
-                        onClick={() => setShowModal(true)} 
-                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-                    >
-                        Add Ticket
-                    </button>
+            <div className="flex flex-1 overflow-hidden">
+                <div className="flex-1 flex overflow-x-auto text-primary text-xl">
+                    <TaskColumn title="To Do" tasks={tasks.filter(task => task.status === 'To Do')} />
+                    <TaskColumn title="Doing" tasks={tasks.filter(task => task.status === 'In Progress')} />
+                    <TaskColumn title="Done" tasks={tasks.filter(task => task.status === 'Done')} />
                 </div>
-            )} */}
 
-            {/* Task Modal */}
+                <div className="w-64 bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg shadow-blue-500/50 overflow-y-auto p-4">
+                    <h2 className="font-semibold text-lg mb-4">Volunteers</h2>
+                    <div className="space-y-4">
+                        {volunteers.map(volunteer => (
+                            <div key={volunteer._id} className="flex items-center space-x-3 bg-white rounded-lg p-3">
+                                <img src={volunteer.primaryImage} alt={volunteer.name} className="w-10 h-10 rounded-full" />
+                                <span className="font-medium">{volunteer.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+
             {showModal && (
                 <CreateTaskModal projectId={projectId} volunteers={volunteers} stage={project.status} onClose={() => setShowModal(false)} />
             )}
-
-            <div className="grid grid-cols-3 gap-6 mt-2">
-                {/* <div className={ authUser?.role == 'admin' ? "col-span-2 h-[280px] pr-2 overflow-y-scroll" : "col-span-2 h-[380px] pr-2 overflow-y-scroll" }>
-                    <h2 className="font-semibold text-lg mb-4">Tickets</h2>
-                    {tasks.length > 0 ? (
-                        tasks.map(task => (
-                            <div key={task._id} className="bg-white shadow-md rounded-lg p-4 mb-4 cursor-pointer" onClick={() => openTaskModal(task._id)}>
-                                <h3 className="font-bold text-md">{task.title}</h3>
-                                <p className="text-sm text-gray-600">Assigned to: {task.assignee?.name || 'Unassigned'}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No tasks available</p>
-                    )}
-                </div> */}
-
-<div className={authUser?.role == 'admin' ? "col-span-2 h-[280px] pr-2 overflow-y-scroll custom-scrollbar" : "col-span-2 h-[380px] pr-2 overflow-y-scroll custom-scrollbar"}>
-    <h2 className="font-semibold text-[22px] mb-4" style={{ letterSpacing: '1.5px' }}>Tickets</h2>
-    <div className="grid grid-cols-2 gap-4">
-        {tasks.length > 0 ? (
-            tasks.map(task => (
-                <div
-                    key={task._id}
-                    className="bg-white shadow-md rounded-lg p-4 mb-4 cursor-pointer hover:shadow-lg transition-shadow duration-300"
-                    onClick={() => openTaskModal(task._id)}
-                >
-                    {/* Task Title with Icon */}
-                    <h3 className="font-semibold text-md mb-2 font-harmonique">
-                        📝 {task.title}
-                    </h3>
-                    {/* Assigned To */}
-                    <p className="text-sm text-gray-600 mb-2">
-                        Assigned to: {task.assignee?.name || 'Unassigned'}
-                    </p>
-                    {/* Task Status with Color */}
-                    <p className={`text-sm font-semibold ${getStatusColor(task.status)}`}>
-                        Status: {task.status}
-                    </p>
-                </div>
-            ))
-        ) : (
-            <p>No tasks available</p>
-        )}
-    </div>
-</div>
-
-                {/* Task Details Modal */}
-                {selectedTaskId && (
-                    <TaskDetailsModal
-                        taskId={selectedTaskId}
-                        onClose={closeTaskModal}
-                    />
-                )}
-
-                <div className={ authUser?.role == 'admin' ? "col-span-1 h-[280px] pr-2 overflow-y-scroll custom-scrollbar" : "col-span-1 h-[380px] pr-2 overflow-y-scroll custom-scrollbar"}>
-                    <h2 className="font-semibold text-[22px] mb-4" style={{ letterSpacing: "1.5px" }}>Volunteers</h2>
-                    {volunteers.length > 0 ? (
-                        volunteers.map(volunteer => (
-                            <div key={volunteer._id} className="bg-white shadow-md flex items-center gap-2 rounded-lg p-4 mb-4">
-                                <img src={volunteer.primaryImage} className='w-9 h-9 rounded-[50%]' />
-                                <h3 className="font-semibold text-md">{volunteer.name}</h3>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No volunteers available</p>
-                    )}
-                </div>
-            </div>
+            {selectedTaskId && (
+                <TaskDetailsModal taskId={selectedTaskId} onClose={closeTaskModal} />
+            )}
         </div>
     );
 };

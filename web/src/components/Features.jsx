@@ -30,7 +30,7 @@ const Features = () => {
               Match-Making
             </h1>
             <p className='text-gray-700 font-poppins'>
-              Monitor the latest market trends and prices. Stay informed about current market conditions.
+            Utilizing AI and ML algorithms to intelligently connect volunteers with suitable NGO projects, ensuring effective collaboration based on skills, availability, and interests.
             </p>
           </div>
           <Link
@@ -53,7 +53,7 @@ const Features = () => {
               Market Place
             </h1>
             <p className='text-gray-700 font-poppins'>
-              Stay updated on current and future weather conditions to optimize farming strategies.
+            A platform for NGOs to showcase their missions and projects, enabling users to easily donate and support their chosen causes.
             </p>
           </div>
           <Link
@@ -76,7 +76,7 @@ const Features = () => {
               NGO Planner
             </h1>
             <p className='text-gray-700 font-poppins'>
-              Analyze crop growth. Use data-driven insights to ensure maximum productivity for your crops.
+            An organized planning tool modeled after JIRA, helping NGOs manage tasks, timelines, and project workflows effectively..
             </p>
           </div>
           <Link
@@ -97,8 +97,7 @@ const Features = () => {
             <h1 className='text-xl font-semibold mb-2 font-poppins'>
               Community
             </h1>
-            <p className='text-gray-700 font-poppins'>
-              Analyze crop growth. Use data-driven insights to ensure maximum productivity for your crops.
+            <p className='text-gray-700 font-poppins'> on projects, enhancing networking opportunities and community involvement.
             </p>
           </div>
           <Link

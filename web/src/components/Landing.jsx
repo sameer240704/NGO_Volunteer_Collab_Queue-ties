@@ -82,7 +82,7 @@ const Landing = () => {
         Communities Through Service
         </h2>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Krishak Saathi is dedicated to revolutionizing agriculture through cutting-edge technology and data-driven solutions.
+        A platform to streamline NGO operations by matching volunteers to projects, tracking resources, managing campaigns, and enhancing visibility through social media integration.
         </p>
 
         <div className="flex justify-center space-x-4">
@@ -99,7 +99,7 @@ const Landing = () => {
             <div className="bg-[#cddff6] p-6 rounded-full custom-shape1 h-[350px]">
               <h3 className="text-6xl font-semibold mb-2 text-primary] text-left">{percent}%</h3>
               <p className="text-lg text-left">
-                Agriculture encompasses crop and livestock production, aquaculture, fisheries, and forestry for food and non-food purposes.
+              A centralized platform empowering NGOs to efficiently manage volunteers, resources, fundraising, and project visibility, ultimately enhancing their ability to drive social change.
               </p>
               <Link to="/login" className="mt-4 text-xl bg-accent hover:bg-blue-500 text-blue-900 px-8 py-3 rounded-full flex items-center">
                 Explore more <ArrowRight size={28} className="ml-6 rounded-full" />
