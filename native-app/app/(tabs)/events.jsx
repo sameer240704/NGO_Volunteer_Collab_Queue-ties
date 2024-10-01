@@ -1,4 +1,4 @@
-import { View, Image, ScrollView } from "react-native";
+import { View, Image, ScrollView, Text } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
@@ -11,10 +11,7 @@ const Weather = () => {
       <StatusBar />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex justify-center items-center p-4">
-          <Image
-            source={images.logo}
-            className="absolute left-40 top-2 h-14 w-14"
-          />
+          <Text>Welcome</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

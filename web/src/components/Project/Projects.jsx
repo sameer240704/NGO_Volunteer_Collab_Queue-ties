@@ -16,6 +16,8 @@ const Projects = () => {
       .catch(err => console.error(err));
   }, []);
 
+  console.log(projects);
+
   const handleProjectClick = (project) => {
     setSelectedProject(project._id); // Set the selected project ID
   };
@@ -56,23 +58,70 @@ const Projects = () => {
         <>
           <h1 className="text-2xl font-semibold mb-4">All Projects</h1>
           <table className="min-w-full border-separate border-spacing-2">
+  <thead>
+    <tr className='bg-white'>
+      <th className="py-3 pl-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg">Sr. No.</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Admin</th>
+      <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Join</th>
+    </tr>
+  </thead>
+  <tbody>
+    {projects.map((project, index) => (
+      <tr key={project._id} className="border-t hover:bg-gray-100">
+        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg text-center">
+          {index + 1}
+        </td>
+        <td
+          className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg cursor-pointer"
+          onClick={() => handleProjectClick(project)}
+        >
+          <span className="text-black-500 font-semibold" style={{ letterSpacing: "1px" }}>{project.title}</span>
+        </td>
+        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg flex gap-2 items-center">
+          <img src={project.createdBy.primaryImage} className='w-9 h-9 rounded-[50%]' />
+          {project.createdBy.name}
+        </td>
+        <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg text-center">
+          {isProjectJoined(project._id) ? (
+            <button
+              className="flex items-center gap-2 text-green-500 font-bold cursor-not-allowed"
+              disabled
+            >
+              <TiTick size={20} /> Joined
+            </button>
+          ) : (
+            <button
+              className="flex items-center gap-2 text-blue-500 font-bold cursor-pointer hover:underline"
+              onClick={() => handleJoinProject(project._id)}
+            >
+              <TiUserAdd size={20} /> Join
+            </button>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+          {/* <table className="min-w-full border-separate border-spacing-2">
             <thead>
               <tr className='bg-white'>
-                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg">Project Name</th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg">Admin</th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg">Join</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Admin</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-semibold text-left rounded-lg bg-white">Join</th>
               </tr>
             </thead>
             <tbody>
               {projects.map(project => (
                 <tr key={project._id} className="border-t hover:bg-gray-100">
                   <td
-                    className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg cursor-pointer"
+                    className="py-2 px-4 border-b border-gray-30 bg-white rounded-lg cursor-pointer"
                     onClick={() => handleProjectClick(project)}
                   >
-                    <span className="text-black-500 font-bold">{project.title}</span>
+                    <span className="text-black-500 font-semibold" style={{ letterSpacing: "1px" }}>{project.title}</span>
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg">
+                  <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg flex gap-2 items-center">
+                    <img src={project.createdBy.primaryImage} className='w-9 h-9 rounded-[50%]' />
                     {project.createdBy.name}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300 bg-white rounded-lg text-center">
@@ -95,7 +144,7 @@ const Projects = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
         </>
       )}
     </div>

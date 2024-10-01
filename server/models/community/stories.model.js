@@ -1,11 +1,25 @@
-// models/story.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-const StorySchema = new mongoose.Schema({
-  uploadedBy: { type: String, required: true },
-  uploadedVideo: { type: String, required: true }, // Ensure this matches your frontend expectations
-  uploadedImage: { type: String, required: true }, // Ensure this matches your frontend expectations
+const storiesSchema = new Schema({
+  uploadedBy: {
+    type: String,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  videoUrl: {
+    type: String,
+    required: true
+  },
+  expiresAt: {
+    type: Date,
+    default: () => Date.now() + 24 * 60 * 60 * 1000
+  }
+
 });
 
-const Story = mongoose.model('Story', StorySchema);
-export default Story;
+const Stories = mongoose.model("Stories", storiesSchema);
+export default Stories;

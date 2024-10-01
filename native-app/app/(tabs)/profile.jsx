@@ -30,6 +30,17 @@ const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editable, setEditable] = useState(false);
 
+  const skillColors = [
+    "#FF5733", // Red
+    "#3357FF", // Blue
+    "#8E44AD", // Purple
+    "#E67E22", // Orange
+    "#2ECC71", // Light Green
+    "#3498DB", // Light Blue
+    "#9B59B6", // Dark Purple
+    "#E74C3C", // Dark Red
+  ];
+
   useEffect(() => {
     if (error) {
       setShowToast(true);
@@ -85,6 +96,21 @@ const Profile = () => {
               <Text className="mt-2 text-xl font-semibold text-primary-900">
                 {userData.name}
               </Text>
+
+              <View className="mt-2 flex flex-row flex-wrap items-center justify-center w-full">
+                {userData.skills.map((skill, index) => (
+                  <View
+                    key={index}
+                    className="rounded-full px-3 py-1 mr-2 mb-1 flex-row items-center"
+                    style={{
+                      backgroundColor: skillColors[index % skillColors.length],
+                    }}
+                  >
+                    <View className="h-2 w-2 rounded-full bg-slate-100 mr-2"></View>
+                    <Text className="text-sm text-white">{skill}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           )}
           <FormField
@@ -134,7 +160,9 @@ const Profile = () => {
           <FormField
             name={t("state")}
             value={userData.state}
-            customStyles="mt-4 mb-7"
+            customStyles={`mt-4 ${
+              userData.role === "volunteer" ? "mb-20" : "mb-7"
+            }`}
             isEditable={editable}
           />
 

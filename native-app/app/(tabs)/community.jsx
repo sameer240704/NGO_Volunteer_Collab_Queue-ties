@@ -38,13 +38,19 @@ const samplePosts = [
 const Community = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newPostImage, setNewPostImage] = useState(null);
-  const [newPostCaption, setNewPostCaption] = useState("");
   const { postsData, isLoading, error, refetchPosts } = usePostsData();
 
   const [form, setForm] = useState({
     caption: "",
     postImage: null,
   });
+
+  const handleChangeCaption = (e) => {
+    setForm({
+      ...form,
+      caption: e,
+    });
+  };
 
   const openImagePicker = async () => {
     let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -82,13 +88,15 @@ const Community = () => {
       }
 
       const formData = new FormData();
-      formData.append("uploadedBy", userId);
-      formData.append("caption", formData.caption);
+      formData.append("userId", userId);
+      formData.append("caption", form.caption);
       formData.append("postImages", {
         uri: form.postImage.uri,
         type: form.postImage.type,
         name: form.postImage.name,
       });
+
+      console.log(formData);
 
       const response = await axios.post(
         "http://192.168.1.131:4224/community/createPost",
@@ -112,6 +120,18 @@ const Community = () => {
     }
   };
 
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setForm({
+      caption: "",
+      postImage: {
+        uri: "",
+        name: "",
+        type: "",
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f3f4f6" }}>
       <StatusBar />
@@ -133,7 +153,7 @@ const Community = () => {
         animationType="slide"
         transparent={true}
         visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={closeModal}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -151,7 +171,7 @@ const Community = () => {
                 style={styles.imagePickerButton}
                 onPress={openImagePicker}
               >
-                {newPostImage ? (
+                {form.postImage ? (
                   <Image
                     source={{ uri: form.postImage.uri }}
                     style={styles.selectedImage}
@@ -168,8 +188,8 @@ const Community = () => {
               <TextInput
                 style={styles.captionInput}
                 placeholder="Write a caption..."
-                value={newPostCaption}
-                onChangeText={setNewPostCaption}
+                value={form.caption}
+                onChangeText={handleChangeCaption}
                 multiline
               />
             </View>

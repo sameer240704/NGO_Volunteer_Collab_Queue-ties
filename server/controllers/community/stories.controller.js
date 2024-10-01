@@ -1,6 +1,9 @@
 import Stories from "../../models/community/stories.model.js";
 import User from "../../models/user.model.js";
 import cloudinary from "cloudinary";
+import Stories from "../../models/community/stories.model.js";
+import User from "../../models/user.model.js";
+import cloudinary from "cloudinary";
 
 export const createStories = async (req, res) => {
     const { uploadedBy } = req.body;
@@ -56,8 +59,8 @@ export const createStories = async (req, res) => {
 };
 
 export const getAllStories = async (req, res) => {
-    try {
-        const stories = await Stories.find();
+  try {
+    const stories = await Stories.find();
 
         const formattedStories = await Promise.all(stories.map(async (story) => {
             return {
@@ -69,12 +72,12 @@ export const getAllStories = async (req, res) => {
 
         console.log(stories);
 
-        res.status(200).json({
-            message: "Stories fetched successfully",
-            stories: formattedStories
-        });
-    } catch (error) {
-        console.error("Error fetching stories:", error);
-        res.status(500).json({ message: "Error fetching stories", error });
-    }
+    res.status(200).json({
+      message: "Stories fetched successfully",
+      stories: formattedStories
+    });
+  } catch (error) {
+    console.error("Error fetching stories:", error);
+    res.status(500).json({ message: "Error fetching stories", error });
+  }
 };

@@ -52,8 +52,6 @@ app.use("/comment", commentRouter);
 app.use('/seller', sellerRouter);
 app.use("/community", communityRouter);
 
-app.use("/stories", storyRouter);
-
 // Chatbot middleware
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
