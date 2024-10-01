@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Logo from '../assets/images/logo.png';
+import Logo from '../assets/images/logo_light.png';
 import Community from '../components/Dashboard-Features/Community';
 import Market from './Dashboard-Features/Market';
 import { useNavigate } from 'react-router-dom';
@@ -54,9 +54,9 @@ const Dashboard = () => {
       <div className="bg-primary fixed text-white w-84 py-8 pl-8 flex flex-col justify-between h-screen">
         <div>
           <div className="flex items-center mb-10">
-            <img src={Logo} alt="Logo" className="w-20 h-16" />
+            <img src={Logo} alt="Logo" className="w-16 h-16 mr-3" />
             <h1 className="text-2xl font-semibold font-harmonique mr-8">
-              ForACause
+              Samarpit
             </h1>
           </div>
 
@@ -77,7 +77,7 @@ const Dashboard = () => {
               onClick={() => handleSectionClick("community")}
             />
             <SidebarLink
-              label="Projects"
+              label="Planner"
               isActive={activeSection === "projects"}
               onClick={() => handleSectionClick("projects")}
             />
@@ -123,6 +123,7 @@ const Dashboard = () => {
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "marketplace" && "Market Place"}
           {activeSection === "community" && "Community"}
+          {activeSection === "projects" && "Planner"}
           {activeSection === "profile" && "Profile Details"}
         </h1>
 
