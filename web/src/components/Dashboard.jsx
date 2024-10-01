@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import Projects from './Project/Projects';
+import ProfileDetails from './Dashboard-Features/ProfileDetails';
 import Overview from './Dashboard-Features/Overview';
 
 const Dashboard = () => {
@@ -42,7 +43,8 @@ const Dashboard = () => {
     };
 
     fetchUser();
-  }, [authUser.userId]);
+  }
+, [authUser.userId]);
 
   return (
     <div className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300">
@@ -82,7 +84,7 @@ const Dashboard = () => {
 
         {/* Profile and Logout Section */}
         <div className="mt-auto">
-          <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8">
+          <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8" onClick={() => handleSectionClick("profile")}>
             <img src={user.user?.primaryImage} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
             <div>
               <h3 className="text-lg font-medium font-harmonique">{user.user?.name}</h3>
@@ -104,6 +106,7 @@ const Dashboard = () => {
           {activeSection === "overview" && "Dashboard Overview"}
           {activeSection === "marketplace" && "Market Place"}
           {activeSection === "community" && "Community"}
+          {activeSection === "profile" && "Profile Details"}
         </h1>
 
         <div>
@@ -112,6 +115,7 @@ const Dashboard = () => {
         </div>
         {activeSection === "marketplace" && <Market />}
         {activeSection === "projects" && <Projects />}
+        {activeSection === "profile" && <ProfileDetails user={user} onLogout={handleLogout} />}
       </div>
     </div>
   );
