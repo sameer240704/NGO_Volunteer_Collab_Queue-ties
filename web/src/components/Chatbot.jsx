@@ -67,7 +67,7 @@ const Chatbot = () => {
       {isOpen && (
         <div className="w-96 border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden">
           <div className="bg-primary text-white p-4 font-bold flex justify-between items-center">
-            <span>😇Jivam</span>
+            <span>😇Samarpit</span>
             <button onClick={toggleChatbot} className="text-white hover:text-gray-200 focus:outline-none">
               <X size={20} />
             </button>
