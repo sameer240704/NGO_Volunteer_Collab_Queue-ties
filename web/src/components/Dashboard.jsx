@@ -8,10 +8,12 @@ import { useAuthContext } from '../context/AuthContext';
 import Projects from './Project/Projects';
 import ProfileDetails from './Dashboard-Features/ProfileDetails';
 import Overview from './Dashboard-Features/Overview';
+import FeedbackModal from './FeedbackModal';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [user, setUser] = useState({});
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const navigate = useNavigate();
   const { authUser } = useAuthContext();
 
@@ -47,7 +49,7 @@ const Dashboard = () => {
 , [authUser.userId]);
 
   return (
-    <div className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300">
+    <div className="min-h-screen flex font-harmonique bg-gradient-to-b from-blue-100 to-blue-300" style={{ zIndex: "-99999" }}>
       {/* Sidebar */}
       <div className="bg-primary fixed text-white w-84 py-8 pl-8 flex flex-col justify-between h-screen">
         <div>
@@ -84,6 +86,21 @@ const Dashboard = () => {
 
         {/* Profile and Logout Section */}
         <div className="mt-auto">
+
+        <div className="flex items-center justify-between">
+        <button
+  onClick={() => setIsFeedbackModalOpen(true)}
+  className="feedback-btn bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-14"
+>
+  Feedback
+</button>
+          </div>
+
+          {/* Feedback modal */}
+          {isFeedbackModalOpen && (
+  <FeedbackModal onClose={() => setIsFeedbackModalOpen(false)} authUser={authUser} />
+)}
+
           <div className="flex items-center space-x-4 p-4 hover:bg-blue-400 cursor-pointer rounded-lg transition-colors mr-8" onClick={() => handleSectionClick("profile")}>
             <img src={user.user?.primaryImage} alt="Profile" className="w-12 h-12 rounded-full object-cover" />
             <div>
