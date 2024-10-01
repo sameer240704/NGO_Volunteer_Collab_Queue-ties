@@ -15,6 +15,11 @@ const taskSchema = new Schema({
         enum: ['To Do', 'In Progress', 'Done'],
         default: 'To Do'
     },
+    stage: {
+        type: String,
+        enum: ['Planning', 'Before Event', 'On Event Day', 'After Event'],
+        default: 'Planning' // Default to Planning
+    },
     assignee: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' // Assigned volunteer

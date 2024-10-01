@@ -1,4 +1,4 @@
-import { loginUser, registerUser, checkAuthentication, getUser, getUserById, logoutUser, getVolunteerById, getPrimaryImageByUserId, getAllVolunteers } from "../controllers/auth.controller.js";
+import { loginUser, registerUser, checkAuthentication, getUser, getUserById, logoutUser, getVolunteerById, getPrimaryImageByUserId, getAllVolunteers, getAdmins } from "../controllers/auth.controller.js";
 import express from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 
@@ -20,5 +20,6 @@ router.post("/logout", logoutUser);
 router.get("/getVolunteer/:volunteerId", getVolunteerById);
 router.get("/getImage/:userId", getPrimaryImageByUserId);
 router.get("/getAllVolunteers", getAllVolunteers);
+router.get('/admins', getAdmins);
 
 export default router;

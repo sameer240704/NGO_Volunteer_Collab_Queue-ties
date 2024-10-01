@@ -7,7 +7,8 @@ export const createProject = async (req, res) => {
         const newProject = new Project({
             title: req.body.title,
             description: req.body.description,
-            createdBy: req.body.createdBy
+            createdBy: req.body.createdBy,
+            skills: req.body.skills
         });
         await newProject.save();
         console.log('New project created successfully.');

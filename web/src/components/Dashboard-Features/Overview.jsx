@@ -75,16 +75,17 @@ const DashboardOverview = () => {
   };
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden z-[99]" >
       {/* Row 3: Analytics and Video */}
 
       <div className="flex">
         {/* 2x2 Grid of Charts */}
         <div className="grid grid-cols-2 gap-3 w-[60vw]">
           {/* Bar Chart */}
-          <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
+          <div className="bg-white z-[1] bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
             <Chart
               chartType="BarChart"
+              className='z-[-1]'
               width="100%"
               height="100%"
               data={barData}
@@ -93,7 +94,7 @@ const DashboardOverview = () => {
           </div>
 
           {/* Line Chart */}
-          <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
+          <div className="bg-white z-[99] bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
             <Chart
               chartType="LineChart"
               width="100%"
@@ -104,7 +105,7 @@ const DashboardOverview = () => {
           </div>
 
           {/* Pie Chart */}
-          <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
+          <div className="bg-white z-[99] bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
             <Chart
               chartType="PieChart"
               width="100%"
@@ -116,7 +117,7 @@ const DashboardOverview = () => {
           </div>
 
           {/* Area Chart */}
-          <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
+          <div className="bg-white z-[99] bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50" style={{ minHeight: '250px' }}>
             <Chart
               chartType="AreaChart"
               width="100%"
@@ -128,7 +129,7 @@ const DashboardOverview = () => {
         </div>
 
         {/* Auto Play Video Positioned Vertically on the Right */}
-        <div className="ml-4 bg-white bg-opacity-25 backdrop-blur-md border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 flex items-center justify-center" style={{ minHeight: '100%', width: '18vw' }}>
+        <div className="ml-4 bg-white z-[99] bg-opacity-25 backdrop-blur-md border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 flex items-center justify-center" style={{ minHeight: '100%', width: '18vw' }}>
           <video width="100%" height="100%" autoPlay loop muted style={{ borderRadius: '10px', objectFit: 'cover' }}>
             <source src={video1} type="video/mp4" />
             Your browser does not support the video tag.

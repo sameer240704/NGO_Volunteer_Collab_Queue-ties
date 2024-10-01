@@ -256,3 +256,12 @@ export const getAllVolunteers = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving volunteers', error: error.message });
     }
 };
+
+export const getAdmins = async (req, res) => {
+    try {
+        const admins = await User.find({ role: 'admin' }).select('_id name');
+        res.status(200).json(admins);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
