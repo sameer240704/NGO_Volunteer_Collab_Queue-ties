@@ -12,7 +12,8 @@ const Projects = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:4224/project/')
+   fetch('http://localhost:4224/project/')
+
       .then(res => res.json())
       .then(data => setProjects(data))
       .catch(err => console.error(err));
@@ -76,7 +77,6 @@ const Projects = () => {
         <ProjectDetails projectId={selectedProject} key={selectedProject} onBack={() => setSelectedProject(null)} />
       ) : (
         <>
-          <table className="min-w-full border-separate border-spacing-2 text-xl font-harmonique">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-2xl font-semibold">All Projects</h1>
             {authUser.role === 'admin' && ( // Show button only if the user is an admin
@@ -88,52 +88,53 @@ const Projects = () => {
               </button>
             )}
           </div>
-          <table className="min-w-full border-separate border-spacing-2">
-  <thead>
-    <tr className='bg-white'>
-      <th className="py-3 pl-4 border-b-2 border-gray-300 font-medium text-left rounded-lg">Sr. No.</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Admin</th>
-      <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Join</th>
-    </tr>
-  </thead>
-  <tbody>
-    {projects.map((project, index) => (
-      <tr key={project._id} className="border-t hover:bg-gray-100">
-        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
-          {index + 1}
-        </td>
-        <td
-          className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50"
-          onClick={() => handleProjectClick(project)}
-        >
-          <span className="text-black-500 font-medium" style={{ letterSpacing: "1px" }}>{project.title}</span>
-        </td>
-        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
-          <img src={project.createdBy.primaryImage} className='w-9 h-9 rounded-[50%]' />
-          {project.createdBy.name}
-        </td>
-        <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50r">
-          {isProjectJoined(project._id) ? (
-            <button
-              className="flex items-center gap-2 text-green-500 font-bold cursor-not-allowed"
-              disabled
-            >
-              <TiTick size={20} /> Joined
-            </button>
-          ) : (
-            <button
-              className="flex items-center gap-2 text-blue-500 font-bold cursor-pointer hover:underline"
-              onClick={() => handleJoinProject(project._id)}
-            >
-              <TiUserAdd size={20} /> Join
-            </button>
-          )}
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+
+          <table className="min-w-full border-separate border-spacing-2 text-xl font-harmonique">
+            <thead>
+              <tr className="bg-white">
+                <th className="py-3 pl-4 border-b-2 border-gray-300 font-medium text-left rounded-lg">Sr. No.</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg"><span className='text-[18px]'>📋</span> Project Name</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Admin</th>
+                <th className="py-3 px-4 border-b-2 border-gray-300 font-medium text-left rounded-lg bg-white">Join</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((project, index) => (
+                <tr key={project._id} className="border-t hover:bg-gray-100">
+                  <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
+                    {index + 1}
+                  </td>
+                  <td
+                    className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50"
+                    onClick={() => handleProjectClick(project)}
+                  >
+                    <span className="text-black-500 font-medium" style={{ letterSpacing: '1px' }}>{project.title}</span>
+                  </td>
+                  <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
+                    <img src={project.createdBy.primaryImage} className='w-9 h-9 rounded-[50%]' alt="Admin" />
+                    {project.createdBy.name}
+                  </td>
+                  <td className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-2 rounded-lg shadow-lg shadow-blue-500/50">
+                    {isProjectJoined(project._id) ? (
+                      <button
+                        className="flex items-center gap-2 text-green-500 font-bold cursor-not-allowed"
+                        disabled
+                      >
+                        <TiTick size={20} /> Joined
+                      </button>
+                    ) : (
+                      <button
+                        className="flex items-center gap-2 text-blue-500 font-bold cursor-pointer hover:underline"
+                        onClick={() => handleJoinProject(project._id)}
+                      >
+                        <TiUserAdd size={20} /> Join
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
           {isCreateModalOpen && (
             <CreateProjectModal
@@ -142,7 +143,6 @@ const Projects = () => {
               authUser={authUser} // Pass the logged-in user
             />
           )}
-
         </>
       )}
     </div>
