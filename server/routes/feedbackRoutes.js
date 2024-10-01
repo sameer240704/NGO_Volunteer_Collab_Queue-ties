@@ -1,5 +1,5 @@
 import express from 'express';
-import { addFeedback, getAllFeedbacks } from '../controllers/feedbackController.js';
+import { addFeedback, getAllFeedbacks, getFeedbackCSVbyAdminId } from '../controllers/feedbackController.js';
 
 const router = express.Router();
 
@@ -8,5 +8,7 @@ router.post('/addFeedback', addFeedback);
 
 // Route to get all feedbacks
 router.get('/getAllFeedback', getAllFeedbacks);
+
+router.get('/getFeedbackCSV/:adminId', getFeedbackCSVbyAdminId);
 
 export default router;
