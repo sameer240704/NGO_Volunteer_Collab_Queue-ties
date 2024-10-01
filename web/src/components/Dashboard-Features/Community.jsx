@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ngo1 from "../../assets/images/ngo1.png";
 import ngo2 from "../../assets/images/ngo2.png";
 import ngo3 from "../../assets/images/ngo3.png";
+import NewStoryModal from "./NewStoryModal"; // Adjust path based on your folder structure
 
 // Example story data
-const stories = [
+const initialStories = [
   { id: 1, username: "x_ae_23b", image: ngo1 },
   { id: 2, username: "maisenpai", image: ngo2 },
   { id: 3, username: "saylorwitf", image: ngo3 },
@@ -31,7 +33,7 @@ const posts = [
     image: ngo2,
   },
   {
-    id: 2,
+    id: 3,
     author: "Jane Smith",
     content:
       "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
@@ -40,7 +42,7 @@ const posts = [
     image: ngo2,
   },
   {
-    id: 2,
+    id: 4,
     author: "Jane Smith",
     content:
       "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
@@ -48,6 +50,7 @@ const posts = [
     comments: 7,
     image: ngo2,
   },
+
 ];
 
 const groups = [
@@ -56,54 +59,39 @@ const groups = [
   { id: 3, name: "Urban Gardeners", members: 567 },
 ];
 
-// Modal component for adding a new story
-const NewStoryModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-96">
-        <h3 className="text-2xl font-semibold mb-4">Add New Story</h3>
-        <input
-          type="file"
-          className="mb-4 w-full border p-2 rounded"
-          accept="image/*"
-          placeholder="Upload your story image"
-        />
-        <textarea
-          placeholder="Write something about your story..."
-          className="w-full p-2 border border-gray-300 rounded-md mb-4"
-          rows="3"
-        ></textarea>
-        <div className="flex justify-end space-x-4">
-          <button
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Add Story
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Community = () => {
+  
+  const [stories, setStories] = useState(initialStories);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await axios.get("http://localhost:4224/stories");
+        setStories(response.data); // Set fetched stories from backend
+      } catch (error) {
+        console.error("Error fetching stories:", error);
+      }
+    }
+  }, []);
+
+  // Function to handle opening the modal
   const handleCreateStoryClick = () => {
     setIsStoryModalOpen(true);
   };
 
+  // Function to handle closing the modal
   const handleCloseModal = () => {
     setIsStoryModalOpen(false);
   };
 
+  // Function to add a new story to the story list
+  const handleAddStory = (newStory) => {
+    setStories([newStory, ...stories]); // Add the new story to the top of the list
+  };
+
   return (
-    <div className="flex h-full bg-blue-100 overflow-hidden text-lg">
+    <div className="flex h-full overflow-hidden text-lg">
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {/* Stories Section */}
@@ -139,7 +127,7 @@ const Community = () => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
+              className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 overflow-hidden"
             >
               <div className="p-4">
                 <h3 className="font-semibold text-2xl text-primary mb-2">
@@ -174,10 +162,16 @@ const Community = () => {
       {/* Right Sidebar */}
       <div className="w-80 sticky top-4 h-screen overflow-y-auto">
         {/* Create New Post */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 rounded-lg shadow-lg shadow-blue-500/50 p-4 mb-6">
           <h3 className="font-semibold text-xl text-primary mb-2">
             Create New Post
           </h3>
+          <input
+            type="file"
+            className="mb-4 w-full border p-2 rounded"
+            accept="image/*"
+            placeholder="Upload your post image"
+          />
           <textarea
             placeholder="What's on your mind?"
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
@@ -189,7 +183,7 @@ const Community = () => {
         </div>
 
         {/* Groups */}
-        <div className="bg-white rounded-lg shadow-lg shadow-blue-500/50 p-4">
+        <div className="bg-white bg-opacity-25 backdrop-blur-sm border border-white border-opacity-40 p-6 rounded-lg shadow-lg shadow-blue-500/50">
           <h3 className="font-semibold text-xl text-primary mb-4">Groups</h3>
           {groups.map((group) => (
             <div key={group.id} className="mb-4 last:mb-0">
@@ -204,7 +198,11 @@ const Community = () => {
       </div>
 
       {/* New Story Modal */}
-      <NewStoryModal isOpen={isStoryModalOpen} onClose={handleCloseModal} />
+      <NewStoryModal
+        isOpen={isStoryModalOpen}
+        onClose={handleCloseModal}
+        onAddStory={handleAddStory} // Pass the function to handle adding a new story
+      />
     </div>
   );
 };

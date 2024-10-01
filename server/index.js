@@ -11,6 +11,7 @@ import taskRouter from "./routes/taskRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
 import sellerRouter from "./routes/sellerRoutes.js";
 import communityRouter from "./routes/community.route.js";
+import storyRouter from "./routes/storyRoutes.js"; // Import the new stories router
 
 
 import bodyParser from "body-parser";
@@ -50,6 +51,7 @@ app.use('/task', taskRouter);
 app.use("/comment", commentRouter);
 app.use('/seller', sellerRouter);
 app.use("/community", communityRouter);
+app.use("/stories", storyRouter); // Add this line to handle stories routes
 
 // Chatbot middleware
 const __filename = fileURLToPath(import.meta.url);
@@ -60,8 +62,8 @@ const client = new SessionsClient({
 });
 
 app.post('/api/chatbot', async (req, res) => {
-  const sessionId = req.body.sessionId; // Ensure this is coming from the request
-  const userQuery = req.body.queryInput.text.text; // Capture the user input text
+  const sessionId = req.body.sessionId;
+  const userQuery = req.body.queryInput.text.text;
 
   if (!sessionId) {
     return res.status(400).send('Session ID is required');
@@ -76,7 +78,7 @@ app.post('/api/chatbot', async (req, res) => {
     session: sessionPath,
     queryInput: {
       text: {
-        text: userQuery, // Ensure this is passed
+        text: userQuery,
         languageCode: 'en',
       },
     },
@@ -90,7 +92,6 @@ app.post('/api/chatbot', async (req, res) => {
     res.status(500).send('Error detecting intent');
   }
 });
-
 
 // Connect to the database
 connectToDatabase();
