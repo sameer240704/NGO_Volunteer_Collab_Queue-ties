@@ -172,7 +172,7 @@ export const getTasksForProject = async (req, res) => {
 
 //         // Extract volunteer names
 //         const volunteerNames = project.volunteers.map(volunteer => volunteer.name);
-        
+
 //         // Send back the volunteer names
 //         res.status(200).json(volunteerNames);
 //     } catch (error) {
@@ -197,7 +197,7 @@ export const getTasksForProject = async (req, res) => {
 //             id: volunteer._id, // Add the volunteer ID
 //             name: volunteer.name // Add the volunteer name
 //         }));
-        
+
 //         // Send back the volunteer information
 //         res.status(200).json(volunteerInfo);
 //     } catch (error) {
