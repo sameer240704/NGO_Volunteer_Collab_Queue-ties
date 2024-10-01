@@ -12,8 +12,6 @@ import commentRouter from "./routes/commentRoutes.js";
 import sellerRouter from "./routes/sellerRoutes.js";
 import communityRouter from "./routes/community.route.js";
 
-import storyRouter from "./routes/storyRoutes.js"; 
-
 import bodyParser from "body-parser";
 import { SessionsClient } from '@google-cloud/dialogflow';
 import { fileURLToPath } from 'url';

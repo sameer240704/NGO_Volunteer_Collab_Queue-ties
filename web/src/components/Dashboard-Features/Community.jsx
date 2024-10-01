@@ -3,9 +3,8 @@ import axios from "axios";
 import ngo1 from "../../assets/images/ngo1.png";
 import ngo2 from "../../assets/images/ngo2.png";
 import ngo3 from "../../assets/images/ngo3.png";
-import NewStoryModal from "./NewStoryModal"; // Adjust path based on your folder structure
+import NewStoryModal from "./NewStoryModal";
 
-// Example story data
 const initialStories = [
   { id: 1, username: "x_ae_23b", image: ngo1 },
   { id: 2, username: "maisenpai", image: ngo2 },
@@ -14,7 +13,7 @@ const initialStories = [
   { id: 5, username: "maryjane2", image: ngo2 },
 ];
 
-const posts = [
+const initialPosts = [
   {
     id: 1,
     author: "John Doe",
@@ -26,31 +25,27 @@ const posts = [
   {
     id: 2,
     author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
+    content: "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
     likes: 24,
     comments: 7,
     image: ngo2,
   },
   {
     id: 3,
-    author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
-    likes: 24,
-    comments: 7,
-    image: ngo2,
+    author: "Mike Johnson",
+    content: "Excited to start my vertical garden project this weekend! 🌱",
+    likes: 18,
+    comments: 5,
+    image: ngo1,
   },
   {
     id: 4,
-    author: "Jane Smith",
-    content:
-      "Our community garden is thriving! Check out these beautiful sunflowers 🌻",
-    likes: 24,
-    comments: 7,
-    image: ngo2,
+    author: "Emily Brown",
+    content: "Just harvested my first batch of organic strawberries! So delicious! 🍓",
+    likes: 30,
+    comments: 9,
+    image: ngo3,
   },
-
 ];
 
 const groups = [
@@ -60,34 +55,43 @@ const groups = [
 ];
 
 const Community = () => {
-  
-  const [stories, setStories] = useState(initialStories);
+  const [stories, setStories] = useState([]);
+  const [posts, setPosts] = useState(initialPosts);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchStories = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get("http://localhost:4224/stories");
-        setStories(response.data); // Set fetched stories from backend
+        const data = response.data;
+        
+        // Check if the response is an array, if not, use the initial stories
+        setStories(Array.isArray(data) ? data : initialStories);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching stories:", error);
+        setError("Failed to fetch stories. Using initial data.");
+        setStories(initialStories);
+        setIsLoading(false);
       }
-    }
+    };
+
+    fetchStories();
   }, []);
 
-  // Function to handle opening the modal
   const handleCreateStoryClick = () => {
     setIsStoryModalOpen(true);
   };
 
-  // Function to handle closing the modal
   const handleCloseModal = () => {
     setIsStoryModalOpen(false);
   };
 
-  // Function to add a new story to the story list
   const handleAddStory = (newStory) => {
-    setStories([newStory, ...stories]); // Add the new story to the top of the list
+    setStories((prevStories) => [newStory, ...prevStories]);
   };
 
   return (
@@ -108,18 +112,24 @@ const Community = () => {
           </div>
 
           {/* Existing Stories */}
-          {stories.map((story) => (
-            <div key={story.id} className="flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-blue-500">
-                <img
-                  src={story.image}
-                  alt={story.username}
-                  className="w-full h-full object-cover"
-                />
+          {isLoading ? (
+            <p>Loading stories...</p>
+          ) : error ? (
+            <p className="text-blue-500">{error}</p>
+          ) : (
+            stories.map((story) => (
+              <div key={story.id} className="flex flex-col items-center">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-blue-500">
+                  <img
+                    src={story.image}
+                    alt={story.username}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="mt-2 text-sm text-gray-700">{story.username}</p>
               </div>
-              <p className="mt-2 text-sm text-gray-700">{story.username}</p>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Posts */}
@@ -201,7 +211,7 @@ const Community = () => {
       <NewStoryModal
         isOpen={isStoryModalOpen}
         onClose={handleCloseModal}
-        onAddStory={handleAddStory} // Pass the function to handle adding a new story
+        onAddStory={handleAddStory}
       />
     </div>
   );

@@ -1,9 +1,6 @@
 import Stories from "../../models/community/stories.model.js";
 import User from "../../models/user.model.js";
 import cloudinary from "cloudinary";
-import Stories from "../../models/community/stories.model.js";
-import User from "../../models/user.model.js";
-import cloudinary from "cloudinary";
 
 export const createStories = async (req, res) => {
     const { uploadedBy } = req.body;
