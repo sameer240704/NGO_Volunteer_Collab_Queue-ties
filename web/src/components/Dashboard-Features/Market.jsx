@@ -151,7 +151,7 @@ const Market = () => {
   
   const SellerDetails = ({ seller, onClose }) => (
     <div className="fixed inset-0 flex items-center justify-center z-50 shadow-md shadow-blue-500/50">
-      <div className="bg-white bg-opacity-10 backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg shadow-blue-500/50 max-w-md w-full mx-4">
+      <div className="bg-white backdrop-blur-sm border border-white border-opacity-40 p-4 rounded-lg shadow-lg max-w-md w-full mx-4">
         <div className='flex items-center justify-between mb-4'>
         <h3 className="font-bold text-xl ml-4">{seller.name}</h3>
         <X className="text-red-500 fill-current mr-2 cursor-pointer hover:text-red-600 active:text-red-400  " size={28} onClick={onClose} />
@@ -209,7 +209,7 @@ const Market = () => {
     <div className="border rounded-lg p-4 shadow-md bg-white flex justify-between items-center">
       <div>
         <h3 className="font-bold font-serif text-lg">{ngo.name}</h3>
-        <p className="text-gray-400 text-sm">{ngo.role}</p>
+        <p className="text-gray-400 text-sm">{ngo.role==='admin'?'NGO': 'Volunteer'}</p>
         <p className='text-gray-900 font-serif text mt-5'>Contact Details:</p>
         <p className="text-gray-600 text-sm">{ngo.phone}</p>
         <p className="text-gray-600 text-sm">{ngo.email}</p>
@@ -260,7 +260,7 @@ const Market = () => {
         </div>
         <img src={ngo.primaryImage} alt={ngo.name} className="w-32 h-32 object-cover rounded-md mb-4 mx-auto" />
         <div className=''>
-        <a className="text-gray-400 mb-2 text-base font-harmonique no-underline">{ngo.role}</a>
+        <a className="text-gray-400 mb-2 text-base font-harmonique no-underline">{ngo.role==='admin' ? 'NGO': 'Volunteer'}</a>
         <p className="mb-2 text-xl font-harmonique text-gray-800">Email: {ngo.email}</p>
         <p className="mb-2 text-xl font-harmonique text-gray-800">Phone: {ngo.phone}</p>
         <p className="mb-2 text-xl font-harmonique text-gray-800 text-wrap">Address: {ngo.address1}, {ngo.address2}</p>
@@ -427,7 +427,10 @@ const Market = () => {
           </button>
         </form>
       )}
-      <div className="mb-6 flex items-center flex-wrap gap-4">
+          
+      {!showAddForm &&
+      <>
+        <div className="mb-6 flex items-center flex-wrap gap-4">
         <div className="relative flex-grow">
           <input
             type="text"
@@ -462,6 +465,8 @@ const Market = () => {
         </select>
       </div>
       <SellerList sellers={sellers} />
+      </>
+      }
       </div>
       {selectedSeller && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-0" onClick={() => setSelectedSeller(null)}></div>
@@ -477,12 +482,15 @@ const Market = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full p-4 pl-10 border rounded-lg font-harmonique"
-      />
+        />
       <Search className="absolute left-3 top-4 text-gray-400" size={20} />
     </div>
   </div>
 
   <NgoList ngos={ngos} />
+        {selectedNgo && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-0" onClick={() => setSelectedSeller(null)}></div>
+        )}
 </div>
       }
     </>

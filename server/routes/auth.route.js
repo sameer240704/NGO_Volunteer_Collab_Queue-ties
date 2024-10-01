@@ -1,5 +1,4 @@
-import { loginUser, registerUser, checkAuthentication, getUserById, logoutUser, getVolunteerById, getPrimaryImageByUserId, getAllVolunteers } from "../controllers/auth.controller.js";
-import { loginUser, registerUser, checkAuthentication, getUserById, getUser, logoutUser, getVolunteerById, getPrimaryImageByUserId } from "../controllers/auth.controller.js";
+import { loginUser, registerUser, checkAuthentication, getUser, getUserById, logoutUser, getVolunteerById, getPrimaryImageByUserId, getAllVolunteers } from "../controllers/auth.controller.js";
 import express from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 
