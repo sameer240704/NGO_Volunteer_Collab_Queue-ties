@@ -49,8 +49,7 @@ const NewStoryModal = ({ isOpen, onClose, onAddStory }) => {
 
     try {
       setUploading(true);
-
-      const response = await axios.post("http://localhost:4224/stories/create ", formData, {
+      const response = await axios.post("http://localhost:4224/community/createStory ", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
