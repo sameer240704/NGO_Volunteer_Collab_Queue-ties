@@ -86,7 +86,7 @@ const ProjectDetails = ({ projectId }) => {
         };
 
         fetchProjectDetails();
-    }, [projectId, showModal, steps]);
+    }, [currentStep]);
 
     const getAssigneeName = (assigneeId) => {
         const volunteer = volunteers.find(vol => vol._id === assigneeId);
